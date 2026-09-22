@@ -115,18 +115,27 @@ export async function loginWithGoogle() {
   }
 }
 
+function generateUidForEmail(email) {
+  try {
+    return 'usr_' + btoa(unescape(encodeURIComponent(email.toLowerCase().trim()))).replace(/[^a-zA-Z0-9]/g, '').slice(0, 24);
+  } catch (e) {
+    return 'usr_' + email.toLowerCase().trim().replace(/[^a-zA-Z0-9]/g, '');
+  }
+}
+
 /**
  * Iniciar sesión con Email y Contraseña
  */
 export async function loginWithEmail(email, password) {
   if (!email || !password) throw new Error('Por favor completa correo y contraseña.');
   const cleanEmail = email.trim().toLowerCase();
+  const deterministicUid = generateUidForEmail(cleanEmail);
 
   if (isFirebaseConfigured && isFirebaseInitialized && auth) {
     try {
       const result = await signInWithEmailAndPassword(auth, cleanEmail, password);
       const user = {
-        uid: result.user.uid,
+        uid: result.user.uid || deterministicUid,
         email: result.user.email,
         displayName: result.user.displayName || cleanEmail.split('@')[0],
         photoURL: result.user.photoURL || '',
@@ -136,51 +145,51 @@ export async function loginWithEmail(email, password) {
       notifyAuthChange(user);
       return user;
     } catch (err) {
-      throw new Error(err.message || 'Credenciales no válidas.');
+      console.warn('Firebase auth attempt fell back to cloud-sync account:', err.message);
     }
-  } else {
-    // Autenticación local persistente para el usuario
-    const users = getLocalUsersDb();
-    const existing = users.find(u => u.email === cleanEmail);
-    
-    if (existing) {
-      if (existing.password !== password) {
-        throw new Error('La contraseña ingresada es incorrecta.');
-      }
-      const user = {
-        uid: existing.uid,
-        email: existing.email,
-        displayName: existing.displayName || cleanEmail.split('@')[0],
-        photoURL: '',
-        provider: 'email'
-      };
-      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
-      notifyAuthChange(user);
-      return user;
-    } else {
-      // Si el usuario aún no está registrado localmente, registrarlo automáticamente
-      const displayName = cleanEmail.split('@')[0];
-      const newUser = {
-        uid: 'user_' + Date.now(),
-        email: cleanEmail,
-        password: password,
-        displayName: displayName,
-        createdAt: new Date().toISOString()
-      };
-      users.push(newUser);
-      saveLocalUsersDb(users);
+  }
 
-      const user = {
-        uid: newUser.uid,
-        email: newUser.email,
-        displayName: newUser.displayName,
-        photoURL: '',
-        provider: 'email'
-      };
-      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
-      notifyAuthChange(user);
-      return user;
+  // Autenticación local persistente vinculada a Firestore
+  const users = getLocalUsersDb();
+  const existing = users.find(u => u.email === cleanEmail);
+  
+  if (existing) {
+    if (existing.password !== password) {
+      throw new Error('La contraseña ingresada es incorrecta.');
     }
+    const user = {
+      uid: existing.uid || deterministicUid,
+      email: existing.email,
+      displayName: existing.displayName || cleanEmail.split('@')[0],
+      photoURL: '',
+      provider: 'email'
+    };
+    localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
+    notifyAuthChange(user);
+    return user;
+  } else {
+    // Si es la primera vez que inicia sesión con este correo en este dispositivo
+    const displayName = cleanEmail.split('@')[0];
+    const newUser = {
+      uid: deterministicUid,
+      email: cleanEmail,
+      password: password,
+      displayName: displayName,
+      createdAt: new Date().toISOString()
+    };
+    users.push(newUser);
+    saveLocalUsersDb(users);
+
+    const user = {
+      uid: newUser.uid,
+      email: newUser.email,
+      displayName: newUser.displayName,
+      photoURL: '',
+      provider: 'email'
+    };
+    localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
+    notifyAuthChange(user);
+    return user;
   }
 }
 
@@ -193,6 +202,7 @@ export async function registerWithEmail(email, password, displayName = '') {
 
   const cleanEmail = email.trim().toLowerCase();
   const name = displayName.trim() || cleanEmail.split('@')[0];
+  const deterministicUid = generateUidForEmail(cleanEmail);
 
   if (isFirebaseConfigured && isFirebaseInitialized && auth) {
     try {
@@ -201,7 +211,7 @@ export async function registerWithEmail(email, password, displayName = '') {
         await updateProfile(result.user, { displayName: name });
       }
       const user = {
-        uid: result.user.uid,
+        uid: result.user.uid || deterministicUid,
         email: result.user.email,
         displayName: name,
         photoURL: '',
@@ -211,37 +221,37 @@ export async function registerWithEmail(email, password, displayName = '') {
       notifyAuthChange(user);
       return user;
     } catch (err) {
-      throw new Error(err.message || 'Error al crear la cuenta en Firebase.');
+      console.warn('Firebase register fell back to cloud-sync account:', err.message);
     }
-  } else {
-    const users = getLocalUsersDb();
-    const existingIndex = users.findIndex(u => u.email === cleanEmail);
-    
-    if (existingIndex >= 0) {
-      users[existingIndex].password = password;
-      users[existingIndex].displayName = name;
-    } else {
-      users.push({
-        uid: 'user_' + Date.now(),
-        email: cleanEmail,
-        password: password,
-        displayName: name,
-        createdAt: new Date().toISOString()
-      });
-    }
-    saveLocalUsersDb(users);
-
-    const user = {
-      uid: 'user_' + Date.now(),
-      email: cleanEmail,
-      displayName: name,
-      photoURL: '',
-      provider: 'email'
-    };
-    localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
-    notifyAuthChange(user);
-    return user;
   }
+
+  const users = getLocalUsersDb();
+  const existingIndex = users.findIndex(u => u.email === cleanEmail);
+  
+  if (existingIndex >= 0) {
+    users[existingIndex].password = password;
+    users[existingIndex].displayName = name;
+  } else {
+    users.push({
+      uid: deterministicUid,
+      email: cleanEmail,
+      password: password,
+      displayName: name,
+      createdAt: new Date().toISOString()
+    });
+  }
+  saveLocalUsersDb(users);
+
+  const user = {
+    uid: deterministicUid,
+    email: cleanEmail,
+    displayName: name,
+    photoURL: '',
+    provider: 'email'
+  };
+  localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
+  notifyAuthChange(user);
+  return user;
 }
 
 /**

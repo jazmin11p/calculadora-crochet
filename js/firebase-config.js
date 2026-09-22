@@ -25,14 +25,14 @@ import {
   onSnapshot 
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-// Configuración de Firebase (Se conecta a Firebase si hay credenciales válidas)
+// Configuración oficial de Firebase para Calculadora Crochet
 const firebaseConfig = {
-  apiKey: window.FIREBASE_API_KEY || "AIzaSyDummyKeyForCrochetCalcApp123456",
-  authDomain: window.FIREBASE_AUTH_DOMAIN || "crochetcalc-app.firebaseapp.com",
-  projectId: window.FIREBASE_PROJECT_ID || "crochetcalc-app",
-  storageBucket: window.FIREBASE_STORAGE_BUCKET || "crochetcalc-app.appspot.com",
-  messagingSenderId: window.FIREBASE_MESSAGING_SENDER_ID || "123456789012",
-  appId: window.FIREBASE_APP_ID || "1:123456789012:web:abcdef1234567890"
+  apiKey: "AIzaSyBB-5Z4SUCaRczgA8xZOIlANJOeO1Cv_fM",
+  authDomain: "crochetcalc-app-jazmin.firebaseapp.com",
+  projectId: "crochetcalc-app-jazmin",
+  storageBucket: "crochetcalc-app-jazmin.firebasestorage.app",
+  messagingSenderId: "993222775766",
+  appId: "1:993222775766:web:d923c2a059f28ecae24a77"
 };
 
 let app = null;
@@ -40,17 +40,15 @@ let auth = null;
 let db = null;
 let googleProvider = null;
 let isFirebaseInitialized = false;
-const isFirebaseConfigured = Boolean(window.FIREBASE_API_KEY && !window.FIREBASE_API_KEY.includes('DummyKey'));
+const isFirebaseConfigured = true;
 
 try {
-  if (isFirebaseConfigured) {
-    app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-    db = getFirestore(app);
-    googleProvider = new GoogleAuthProvider();
-    googleProvider.setCustomParameters({ prompt: 'select_account' });
-    isFirebaseInitialized = true;
-  }
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  googleProvider = new GoogleAuthProvider();
+  googleProvider.setCustomParameters({ prompt: 'select_account' });
+  isFirebaseInitialized = true;
 } catch (err) {
   console.warn('Firebase error de inicialización:', err.message);
 }
