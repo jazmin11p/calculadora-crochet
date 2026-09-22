@@ -1,0 +1,420 @@
+/* CrochetCalc (PuntoPerfecto) - Estilo Rosa Viejo & Espresso Artesanal */
+
+:root {
+  --primary: #9E4753;          /* Berry / Rosa Viejo artesanal */
+  --primary-hover: #80303C;
+  --primary-light: #FCE7EB;
+  --primary-glow: rgba(158, 71, 83, 0.22);
+  
+  --secondary: #E8C2B8;        /* Blush / Rosa empolvado */
+  --secondary-light: #F2DDD6;
+  --secondary-dark: #8C4D40;
+
+  --accent: #DFAEA1;           /* Acento melocotón suave */
+  --accent-light: #FAF1EE;
+
+  --bg-almond: #FBF6F2;        /* Fondo almendra lino cálido */
+  --card-bg: #FFFFFF;
+  --card-porcelain: #FFF8F6;
+  --card-border: #EBD8D0;
+  --card-border-soft: #F0E2DA;
+  --text-main: #2D212A;        /* Espresso oscuro */
+  --text-muted: #7A6873;       /* Espresso grisáceo suave */
+  --text-light: #A5969F;
+
+  --radius-lg: 1.25rem;
+  --radius-md: 0.85rem;
+  --radius-sm: 0.5rem;
+  
+  --shadow-soft: 0 4px 20px -2px rgba(45, 33, 42, 0.05), 0 2px 6px -1px rgba(45, 33, 42, 0.03);
+  --shadow-card: 0 10px 30px -5px rgba(45, 33, 42, 0.08), 0 4px 12px -2px rgba(45, 33, 42, 0.04);
+  --shadow-active: 0 15px 35px -5px rgba(158, 71, 83, 0.22);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-almond);
+  color: var(--text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Tipografía elegante para títulos */
+.font-serif-heading, .font-headline {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-mono-data {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Material Symbols Outlined styling */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Fondos y texturas artesanales */
+.bg-artisan-pattern, .bg-crochet-pattern {
+  background-color: #FBF6F2;
+  background-image: radial-gradient(#E8D7CD 0.9px, transparent 0.9px);
+  background-size: 15px 15px;
+}
+
+.card-artisan {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-artisan:hover {
+  box-shadow: var(--shadow-card);
+}
+
+/* Transiciones entre pestañas */
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Botones principales con brillo y microinteracciones */
+.btn-primary-artisan {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  box-shadow: 0 4px 14px 0 var(--primary-glow);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary-artisan:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 var(--primary-glow);
+  filter: brightness(1.05);
+}
+
+.btn-primary-artisan:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+.btn-secondary-artisan {
+  background: #FFFFFF;
+  color: var(--text-main);
+  border: 1.5px solid var(--card-border);
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.75rem 1.4rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary-artisan:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Inputs y Selects artesanales */
+.input-artisan, .select-artisan {
+  background-color: #FFFFFF;
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 1rem;
+  color: var(--text-main);
+  font-weight: 500;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.input-artisan:focus, .select-artisan:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* Selector de radio segmentado (Píldoras) */
+.pill-group {
+  display: flex;
+  background-color: #FAF3ED;
+  border: 1px solid var(--card-border-soft);
+  padding: 4px;
+  border-radius: 9999px;
+  gap: 4px;
+}
+
+.pill-option {
+  flex: 1;
+  text-align: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.pill-option.active {
+  background-color: #FFFFFF;
+  color: var(--primary);
+  box-shadow: 0 2px 8px rgba(45, 33, 42, 0.08);
+  border: 1px solid var(--card-border);
+}
+
+/* Barra inferior móvil (Bottom Navigation Bar) */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(251, 246, 242, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--card-border-soft);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5rem 0.75rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+  box-shadow: 0 -4px 20px rgba(45, 33, 42, 0.05);
+}
+
+.nav-item-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-item-btn i {
+  font-size: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+.nav-item-btn.active {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.nav-item-btn.active i {
+  transform: translateY(-2px);
+}
+
+/* Contador de vueltas táctil XXL */
+.counter-touch-btn {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  user-select: none;
+  border: none;
+}
+
+.counter-touch-btn:active {
+  transform: scale(0.92);
+}
+
+.counter-number-display {
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  line-height: 1;
+  font-weight: 800;
+  color: var(--primary);
+  text-shadow: 0 4px 12px rgba(158, 71, 83, 0.15);
+}
+
+/* Indicador visual de escala (Crochet Comparison Bar) */
+.gauge-visual-bar {
+  height: 12px;
+  border-radius: 6px;
+  background: #F4EAE2;
+  position: relative;
+  overflow: hidden;
+}
+
+.gauge-visual-progress {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Animación de pulso para resultados calculados */
+@keyframes highlightResult {
+  0% { transform: scale(0.97); opacity: 0.8; }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.recalc-pulse {
+  animation: highlightResult 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Badges estilizados */
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.badge-terracotta, .badge-berry {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(158, 71, 83, 0.2);
+}
+
+.badge-sage, .badge-blush {
+  background-color: var(--secondary-light);
+  color: var(--secondary-dark);
+  border: 1px solid rgba(232, 194, 184, 0.5);
+}
+
+.badge-gold {
+  background-color: var(--accent-light);
+  color: #8C4D40;
+  border: 1px solid rgba(223, 174, 161, 0.4);
+}
+
+/* Toast Notificaciones */
+#toast-container {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  pointer-events: none;
+}
+
+.toast-msg {
+  pointer-events: auto;
+  background: var(--text-main);
+  color: #FFFFFF;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  animation: slideInToast 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-width: 90vw;
+  border: 1px solid rgba(232, 194, 184, 0.2);
+}
+
+@keyframes slideInToast {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes scaleInModal {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-scale-in {
+  animation: scaleInModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Estilos de impresión para fichas de proyecto */
+@media print {
+  body {
+    background: #FFFFFF;
+    color: #000000;
+  }
+  .no-print, .bottom-nav, #toast-container, header {
+    display: none !important;
+  }
+  .card-artisan {
+    box-shadow: none !important;
+    border: 1px solid #CCC !important;
+    break-inside: avoid;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #F4EAE2;
+}
+::-webkit-scrollbar-thumb {
+  background: #E8D7CD;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}

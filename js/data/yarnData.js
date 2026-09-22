@@ -1,0 +1,305 @@
+/**
+ * CrochetCalc (PuntoPerfecto) - Yarn & Hook Standards Data
+ * Tablas estándar de grosores de lana (CYC), equivalencias de ganchillos y glosario de puntos.
+ */
+
+export const YARN_STANDARDS = [
+  {
+    id: 0,
+    cyc: 0,
+    nameES: 'Encaje / Lace',
+    nameEN: 'Lace / Thread',
+    types: 'Fingering 10-count, Hilo de ganchillo Nº 10, Crochet Thread',
+    wpi: '30-40+ WPI',
+    recommendedHookMin: 1.5,
+    recommendedHookMax: 2.25,
+    recommendedHookUS: 'Steel 6, 7, 8 / B-1',
+    defaultStitches10cm: 32,
+    defaultRows10cm: 40,
+    metersPer100g: '600 - 1000+ m',
+    densityFactor: 0.55,
+    description: 'Ideal para tapetes, puntillas, encajes calados y micro-crochet.'
+  },
+  {
+    id: 1,
+    cyc: 1,
+    nameES: 'Super Fina / Fingering',
+    nameEN: 'Super Fine / Sock / Baby',
+    types: 'Lana de calcetines, Baby yarn, 3-ply, 4-ply',
+    wpi: '14-30 WPI',
+    recommendedHookMin: 2.25,
+    recommendedHookMax: 3.5,
+    recommendedHookUS: 'B-1 a E-4',
+    defaultStitches10cm: 28,
+    defaultRows10cm: 34,
+    metersPer100g: '360 - 450 m',
+    densityFactor: 0.70,
+    description: 'Perfecta para calcetines, ropita de bebé, chales ligeros y amigurumis delicados.'
+  },
+  {
+    id: 2,
+    cyc: 2,
+    nameES: 'Fina / Sport',
+    nameEN: 'Fine / Sport / Baby',
+    types: 'Sport weight, 5-ply, Algodón fino 4/2',
+    wpi: '12-18 WPI',
+    recommendedHookMin: 3.5,
+    recommendedHookMax: 4.5,
+    recommendedHookUS: 'E-4 a 7',
+    defaultStitches10cm: 22,
+    defaultRows10cm: 28,
+    metersPer100g: '250 - 350 m',
+    densityFactor: 0.82,
+    description: 'Excelente para tops primaverales, jerseys ligeros, gorros de entretiempo y mantitas suaves.'
+  },
+  {
+    id: 3,
+    cyc: 3,
+    nameES: 'Ligera / DK (Double Knitting)',
+    nameEN: 'Light / DK / Light Worsted',
+    types: 'DK, 8-ply, Algodón 8/4 o 8/6 fino',
+    wpi: '11-15 WPI',
+    recommendedHookMin: 4.5,
+    recommendedHookMax: 5.5,
+    recommendedHookUS: '7 a I-9',
+    defaultStitches10cm: 18,
+    defaultRows10cm: 22,
+    metersPer100g: '200 - 250 m',
+    densityFactor: 0.92,
+    description: 'El grosor más versátil para prendas infantiles, cardigans cómodos, chales y amigurumis estándar.'
+  },
+  {
+    id: 4,
+    cyc: 4,
+    nameES: 'Media / Worsted / Aran',
+    nameEN: 'Medium / Worsted / Aran / Afghan',
+    types: 'Worsted, Aran, 10-ply, Algodón 8/6, Lana clásica 4 cabos',
+    wpi: '9-12 WPI',
+    recommendedHookMin: 5.5,
+    recommendedHookMax: 6.5,
+    recommendedHookUS: 'I-9 a K-10.5',
+    defaultStitches10cm: 14,
+    defaultRows10cm: 18,
+    metersPer100g: '160 - 200 m',
+    densityFactor: 1.0,
+    description: 'El estándar universal. Ideal para bufandas, mantas, jerseys de invierno, bolsos y gorros.'
+  },
+  {
+    id: 5,
+    cyc: 5,
+    nameES: 'Gruesa / Bulky / Chunky',
+    nameEN: 'Bulky / Chunky / Craft / Rug',
+    types: 'Chunky, 12-ply, Algodón XL, Cinta de algodón',
+    wpi: '6-9 WPI',
+    recommendedHookMin: 6.5,
+    recommendedHookMax: 9.0,
+    recommendedHookUS: 'K-10.5 a M-13',
+    defaultStitches10cm: 11,
+    defaultRows10cm: 14,
+    metersPer100g: '100 - 150 m',
+    densityFactor: 1.28,
+    description: 'Tejido rápido para bufandas abrigadas, gorros invernales, cestas y decoración del hogar.'
+  },
+  {
+    id: 6,
+    cyc: 6,
+    nameES: 'Super Gruesa / Super Bulky',
+    nameEN: 'Super Bulky / Roving',
+    types: 'Super Chunky, Trapillo fino, Chenilla gruesa, Lana mecha',
+    wpi: '5-6 WPI',
+    recommendedHookMin: 9.0,
+    recommendedHookMax: 15.0,
+    recommendedHookUS: 'M-13 a Q',
+    defaultStitches10cm: 8,
+    defaultRows10cm: 10,
+    metersPer100g: '50 - 90 m',
+    densityFactor: 1.65,
+    description: 'Proyectos ultra rápidos en pocas horas: cuellos XXL, mantas nórdicas y alfombras.'
+  },
+  {
+    id: 7,
+    cyc: 7,
+    nameES: 'Jumbo / Gigante',
+    nameEN: 'Jumbo / Giant',
+    types: 'Trapillo grueso, Lana gigante para brazos, Cordón trenzado 9mm+',
+    wpi: '1-4 WPI',
+    recommendedHookMin: 15.0,
+    recommendedHookMax: 25.0,
+    recommendedHookUS: 'Q a S / 25mm+',
+    defaultStitches10cm: 5,
+    defaultRows10cm: 6,
+    metersPer100g: '25 - 45 m',
+    densityFactor: 2.20,
+    description: 'Mantas extra gigantes, pufs y cojines decorativos de máxima textura.'
+  }
+];
+
+export const HOOK_SIZES = [
+  { mm: 1.5, us: 'Steel 6 / 7', uk: '4.5', note: 'Hilo fino / Encaje' },
+  { mm: 1.75, us: 'Steel 4 / 5', uk: '4', note: 'Hilo fino / Tapetes' },
+  { mm: 2.0, us: 'Steel 0 / 14', uk: '14', note: 'Micro-amigurumi, encajes' },
+  { mm: 2.25, us: 'B-1', uk: '13', note: 'Fingering fino' },
+  { mm: 2.5, us: 'C-2', uk: '12', note: 'Calcetines, amigurumi fino' },
+  { mm: 2.75, us: 'C-2 / D-3', uk: '11', note: 'Lana bebé' },
+  { mm: 3.0, us: 'D-3', uk: '11', note: 'Amigurumi estándar 100% algodón' },
+  { mm: 3.25, us: 'D-3 / E-4', uk: '10', note: 'Sport ligero' },
+  { mm: 3.5, us: 'E-4', uk: '9', note: 'Sport / DK fino' },
+  { mm: 3.75, us: 'F-5', uk: '9', note: 'DK estándar' },
+  { mm: 4.0, us: 'G-6', uk: '8', note: 'DK / Worsted ligero (Muy popular)' },
+  { mm: 4.5, us: '7', uk: '7', note: 'Worsted / Aran suelto' },
+  { mm: 5.0, us: 'H-8', uk: '6', note: 'Worsted clásico (Muy popular)' },
+  { mm: 5.5, us: 'I-9', uk: '5', note: 'Worsted grueso / Aran' },
+  { mm: 6.0, us: 'J-10', uk: '4', note: 'Chunky ligero' },
+  { mm: 6.5, us: 'K-10.5', uk: '3', note: 'Bulky / Chunky' },
+  { mm: 7.0, us: 'K-10.5+', uk: '2', note: 'Bulky' },
+  { mm: 8.0, us: 'L-11', uk: '0', note: 'Bulky / Trapillo' },
+  { mm: 9.0, us: 'M/N-13', uk: '00', note: 'Super Bulky' },
+  { mm: 10.0, us: 'N/P-15', uk: '000', note: 'Super Bulky / Chenilla' },
+  { mm: 12.0, us: 'P/Q', uk: '-', note: 'Super Bulky gruesa' },
+  { mm: 15.0, us: 'P/Q-19', uk: '-', note: 'Jumbo / Trapillo XXL' },
+  { mm: 20.0, us: 'S', uk: '-', note: 'Jumbo gigante' },
+  { mm: 25.0, us: 'U / 50', uk: '-', note: 'Lana extrema / Tejido XXL' }
+];
+
+export const CROCHET_GLOSSARY = [
+  {
+    es: 'Cadeneta',
+    esAbbr: 'cad / cad.',
+    us: 'Chain stitch',
+    usAbbr: 'ch',
+    uk: 'Chain stitch',
+    ukAbbr: 'ch',
+    symbol: '○ / ⬭',
+    description: 'El punto base inicial para montar labores y dar altura a las vueltas.'
+  },
+  {
+    es: 'Punto Raso / Enano / Deslizado',
+    esAbbr: 'pr / pe / pd',
+    us: 'Slip Stitch',
+    usAbbr: 'sl st',
+    uk: 'Slip Stitch',
+    ukAbbr: 'ss / sl st',
+    symbol: '● / •',
+    description: 'Punto muy bajo para cerrar vueltas redondas, rematar bordes o avanzar sin dar altura.'
+  },
+  {
+    es: 'Punto Bajo / Medio Punto',
+    esAbbr: 'pb / mp',
+    us: 'Single Crochet',
+    usAbbr: 'sc',
+    uk: 'Double Crochet',
+    ukAbbr: 'dc',
+    symbol: '✕ / ＋',
+    description: 'Punto compacto y denso, el rey indiscutible de los amigurumis y cestas firmes.'
+  },
+  {
+    es: 'Medio Punto Alto / Media Vareta',
+    esAbbr: 'mpa / mv',
+    us: 'Half Double Crochet',
+    usAbbr: 'hdc',
+    uk: 'Half Treble Crochet',
+    ukAbbr: 'htr',
+    symbol: '┬',
+    description: 'Punto intermedio con textura suave y excelente caída para jerséis y mantas.'
+  },
+  {
+    es: 'Punto Alto / Vareta',
+    esAbbr: 'pa / var.',
+    us: 'Double Crochet',
+    usAbbr: 'dc',
+    uk: 'Treble Crochet',
+    ukAbbr: 'tr',
+    symbol: '┼',
+    description: 'El punto más clásico de mantas, grannys y prendas fluidas. Equivale a 3 cadenetas de altura.'
+  },
+  {
+    es: 'Punto Alto Doble / Vareta Doble',
+    esAbbr: 'pad / vd',
+    us: 'Treble Crochet / Triple',
+    usAbbr: 'tr',
+    uk: 'Double Treble Crochet',
+    ukAbbr: 'dtr',
+    symbol: '╪',
+    description: 'Punto alto con 2 lazadas iniciales, crea un tejido muy calado y elástico.'
+  },
+  {
+    es: 'Punto Alto Triple / Vareta Triple',
+    esAbbr: 'pat / vt',
+    us: 'Double Treble Crochet',
+    usAbbr: 'dtr',
+    uk: 'Triple Treble Crochet',
+    ukAbbr: 'trtr',
+    symbol: '╫',
+    description: 'Punto con 3 lazadas, para calados amplios, chales y encajes de verano.'
+  },
+  {
+    es: 'Aumento (2 puntos en el mismo lugar)',
+    esAbbr: 'aum / inc',
+    us: 'Increase',
+    usAbbr: 'inc / 2 sc in next st',
+    uk: 'Increase',
+    ukAbbr: 'inc / 2 dc in next st',
+    symbol: '⋁',
+    description: 'Tejer dos o más puntos en el mismo punto de la vuelta anterior para ensanchar la labor.'
+  },
+  {
+    es: 'Disminución (cerrar 2 puntos juntos)',
+    esAbbr: 'dism / dec',
+    us: 'Decrease / Single Crochet 2 Together',
+    usAbbr: 'dec / sc2tog',
+    uk: 'Decrease / Double Crochet 2 Together',
+    ukAbbr: 'dec / dc2tog',
+    symbol: '⋀',
+    description: 'Tejer dos puntos cerrados juntos en uno solo para reducir el ancho de la labor.'
+  },
+  {
+    es: 'Anillo Mágico',
+    esAbbr: 'am / mr',
+    us: 'Magic Ring / Magic Loop',
+    usAbbr: 'MR / MC',
+    uk: 'Magic Ring',
+    ukAbbr: 'MR',
+    symbol: '◎',
+    description: 'Técnica circular ajustable para empezar proyectos redondos sin dejar agujero central.'
+  },
+  {
+    es: 'Hebra Delantera Solamente',
+    esAbbr: 'hd / flo',
+    us: 'Front Loop Only',
+    usAbbr: 'FLO',
+    uk: 'Front Loop Only',
+    ukAbbr: 'FLO',
+    symbol: '⌣',
+    description: 'Insertar el ganchillo tomando únicamente la hebra que queda hacia ti.'
+  },
+  {
+    es: 'Hebra Trasera Solamente',
+    esAbbr: 'ht / blo',
+    us: 'Back Loop Only',
+    usAbbr: 'BLO',
+    uk: 'Back Loop Only',
+    ukAbbr: 'BLO',
+    symbol: '⌢',
+    description: 'Insertar el ganchillo en la hebra posterior. Crea un efecto elástico tipo canalé.'
+  },
+  {
+    es: 'Punto Cangrejo (Punto bajo hacia atrás)',
+    esAbbr: 'p. cangrejo',
+    us: 'Crab Stitch / Reverse Single Crochet',
+    usAbbr: 'reverse sc',
+    uk: 'Reverse Double Crochet',
+    ukAbbr: 'reverse dc',
+    symbol: '↩',
+    description: 'Punto bajo tejido de izquierda a derecha. Es el remate perfecto para bordes decorativos.'
+  },
+  {
+    es: 'Punto Piña / Popcorn / Burbuja',
+    esAbbr: 'piña / pop',
+    us: 'Popcorn / Bobble Stitch',
+    usAbbr: 'pop / bo',
+    uk: 'Popcorn / Bobble Stitch',
+    ukAbbr: 'pop / bo',
+    symbol: '፨',
+    description: 'Grupo de 4 o 5 puntos altos cerrados juntos para dar volumen 3D esponjoso.'
+  }
+];
