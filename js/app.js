@@ -695,15 +695,15 @@ function setupAuthEventListeners() {
     try {
       setAuthLoading(true);
       clearAuthError();
+      let user;
       if (authMode === 'login') {
-        const user = await loginWithEmail(email, password);
-        closeAuthModal();
-        showToast(`¡Sesión iniciada como ${user.email}! ☁️✨`, 'success');
+        user = await loginWithEmail(email, password);
       } else {
-        const user = await registerWithEmail(email, password, name);
-        closeAuthModal();
-        showToast(`¡Cuenta creada con éxito! Bienvenida, ${user.displayName} 🧶`, 'success');
+        user = await registerWithEmail(email, password, name);
       }
+      closeAuthModal();
+      showToast(`¡Sesión iniciada como ${user.email}! ☁️✨`, 'success');
+      await handleAuthStatusChange(user);
     } catch (err) {
       showAuthError(err.message || 'Ocurrió un error al procesar tu solicitud.');
     } finally {

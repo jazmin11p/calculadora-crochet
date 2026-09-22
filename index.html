@@ -1523,7 +1523,7 @@
         <!-- Mensaje de error / estado -->
         <div id="auth-error-msg" class="hidden text-xs text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200 font-medium"></div>
 
-        <button type="submit" id="btn-auth-submit" class="btn-primary-artisan w-full py-3 text-sm font-bold mt-2">
+        <button type="submit" id="btn-auth-submit" onclick="window.handleAuthFormSubmit && window.handleAuthFormSubmit(event)" class="btn-primary-artisan w-full py-3 text-sm font-bold mt-2 cursor-pointer">
           Iniciar Sesión
         </button>
       </form>
