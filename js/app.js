@@ -634,7 +634,9 @@ function setupAuthEventListeners() {
       e.stopPropagation();
       const user = getCurrentUser();
       if (user) {
-        userDropdownMenu?.classList.toggle('hidden');
+        if (userDropdownMenu) {
+          userDropdownMenu.classList.toggle('hidden');
+        }
       } else {
         openAuthModal();
       }
@@ -643,8 +645,10 @@ function setupAuthEventListeners() {
 
   // Cerrar dropdown al hacer clic fuera
   document.addEventListener('click', (e) => {
-    if (userDropdownMenu && !userDropdownMenu.contains(e.target) && e.target !== btnAuthHeader) {
-      userDropdownMenu.classList.add('hidden');
+    if (userDropdownMenu && !userDropdownMenu.classList.contains('hidden')) {
+      if (!userDropdownMenu.contains(e.target) && !btnAuthHeader?.contains(e.target)) {
+        userDropdownMenu.classList.add('hidden');
+      }
     }
   });
 

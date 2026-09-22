@@ -171,29 +171,33 @@
 
           <!-- Botón de Cuenta de Usuario / Sincronización en la Nube -->
           <div class="relative">
-            <button id="btn-auth-header" onclick="window.handleAuthHeaderClick ? window.handleAuthHeaderClick(event) : (window.openAuthModal ? window.openAuthModal() : document.getElementById('auth-modal').classList.remove('hidden'))" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-terracotta-50 hover:bg-terracotta-100 text-terracotta-700 border border-terracotta-200 transition text-xs font-bold shadow-sm cursor-pointer">
+            <button id="btn-auth-header" type="button" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-terracotta-50 hover:bg-terracotta-100 text-terracotta-700 border border-terracotta-200 transition text-xs font-bold shadow-sm cursor-pointer select-none">
               <div id="auth-avatar-circle" class="w-6 h-6 rounded-full bg-terracotta-500 text-white flex items-center justify-center text-[10px] font-bold">
                 <i class="fa-solid fa-user"></i>
               </div>
               <span id="auth-user-label" class="inline text-xs font-semibold max-w-[110px] truncate">Iniciar sesión</span>
-              <span id="auth-cloud-badge" class="hidden w-2 h-2 rounded-full bg-emerald-500" title="Sincronizado en la nube"></span>
+              <span id="auth-cloud-badge" class="hidden w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white" title="Sincronizado en la nube"></span>
             </button>
 
             <!-- Menú Desplegable de Usuario (Oculto por defecto) -->
-            <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-sand-200 py-2 z-50 text-sand-900">
-              <div class="px-4 py-2 border-b border-sand-100">
+            <div id="user-dropdown-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-sand-200 py-2 z-50 text-sand-900 ring-1 ring-black/5">
+              <div class="px-4 py-3 border-b border-sand-100 bg-sand-50/50">
                 <p id="dropdown-user-name" class="font-bold text-sm text-sand-900 truncate">Mi Cuenta</p>
-                <p id="dropdown-user-email" class="text-xs text-sand-800/70 truncate"></p>
-                <div class="flex items-center gap-1 mt-1 text-[11px] text-emerald-600 font-semibold">
-                  <span class="material-symbols-outlined text-[14px]">cloud_done</span> Sincronizado en la nube
+                <p id="dropdown-user-email" class="text-xs text-sand-800/80 truncate mt-0.5"></p>
+                <div class="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-600 font-semibold">
+                  <span class="material-symbols-outlined text-[14px]">cloud_done</span> Nube Activa y Sincronizada
                 </div>
               </div>
-              <button id="btn-dropdown-sync" onclick="window.handleForceSync && window.handleForceSync()" class="w-full text-left px-4 py-2 text-xs hover:bg-sand-50 flex items-center gap-2 text-sand-800 font-medium cursor-pointer">
-                <i class="fa-solid fa-arrows-rotate text-terracotta-500"></i> Forzar sincronización
-              </button>
-              <button id="btn-dropdown-logout" onclick="window.handleLogout && window.handleLogout()" class="w-full text-left px-4 py-2 text-xs hover:bg-rose-50 text-rose-600 flex items-center gap-2 font-bold border-t border-sand-100 mt-1 cursor-pointer">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
-              </button>
+              <div class="py-1">
+                <button id="btn-dropdown-sync" type="button" class="w-full text-left px-4 py-2.5 text-xs hover:bg-sand-50 flex items-center gap-2.5 text-sand-800 font-medium cursor-pointer transition">
+                  <i class="fa-solid fa-arrows-rotate text-terracotta-500 text-sm"></i> 
+                  <span>Sincronizar ahora</span>
+                </button>
+                <button id="btn-dropdown-logout" type="button" class="w-full text-left px-4 py-2.5 text-xs hover:bg-rose-50 text-rose-600 flex items-center gap-2.5 font-bold border-t border-sand-100 mt-1 cursor-pointer transition">
+                  <i class="fa-solid fa-arrow-right-from-bracket text-sm"></i> 
+                  <span>Cerrar sesión</span>
+                </button>
+              </div>
             </div>
           </div>
 
