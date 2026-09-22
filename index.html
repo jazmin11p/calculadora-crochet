@@ -1504,7 +1504,7 @@
       </div>
 
       <!-- Formulario Auth -->
-      <form id="auth-form" onsubmit="window.handleAuthFormSubmit ? window.handleAuthFormSubmit(event) : null" class="space-y-3">
+      <form id="auth-form" onsubmit="event.preventDefault(); window.handleAuthFormSubmit ? window.handleAuthFormSubmit(event) : null; return false;" class="space-y-3">
         <div id="auth-name-group" class="hidden">
           <label class="block text-xs font-bold text-sand-800 mb-1">Nombre o Apodo:</label>
           <input type="text" id="auth-input-name" class="input-artisan text-sm" placeholder="ej: Carmen">
@@ -1517,13 +1517,13 @@
 
         <div>
           <label class="block text-xs font-bold text-sand-800 mb-1">Contraseña:</label>
-          <input type="password" id="auth-input-password" required minlength="6" class="input-artisan text-sm" placeholder="Mínimo 6 caracteres">
+          <input type="password" id="auth-input-password" minlength="6" class="input-artisan text-sm" placeholder="Mínimo 6 caracteres">
         </div>
 
         <!-- Mensaje de error / estado -->
         <div id="auth-error-msg" class="hidden text-xs text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200 font-medium"></div>
 
-        <button type="submit" id="btn-auth-submit" onclick="window.handleAuthFormSubmit && window.handleAuthFormSubmit(event)" class="btn-primary-artisan w-full py-3 text-sm font-bold mt-2 cursor-pointer">
+        <button type="button" id="btn-auth-submit" onclick="window.handleAuthFormSubmit ? window.handleAuthFormSubmit(event) : null" class="btn-primary-artisan w-full py-3 text-sm font-bold mt-2 cursor-pointer">
           Iniciar Sesión
         </button>
       </form>
@@ -1567,6 +1567,28 @@
       <span>Tablas</span>
     </button>
   </nav>
+
+  <!-- Script de apoyo inmediato -->
+  <script>
+    window.setAuthMode = function(mode) {
+      window.currentAuthMode = mode;
+      var tabLogin = document.getElementById('tab-auth-login');
+      var tabRegister = document.getElementById('tab-auth-register');
+      var nameGroup = document.getElementById('auth-name-group');
+      var submitBtn = document.getElementById('btn-auth-submit');
+      if (mode === 'login') {
+        if (tabLogin) { tabLogin.classList.add('bg-white', 'text-terracotta-600', 'shadow-sm'); tabLogin.classList.remove('text-sand-800'); }
+        if (tabRegister) { tabRegister.classList.remove('bg-white', 'text-terracotta-600', 'shadow-sm'); tabRegister.classList.add('text-sand-800'); }
+        if (nameGroup) nameGroup.classList.add('hidden');
+        if (submitBtn) submitBtn.textContent = 'Iniciar Sesión';
+      } else {
+        if (tabRegister) { tabRegister.classList.add('bg-white', 'text-terracotta-600', 'shadow-sm'); tabRegister.classList.remove('text-sand-800'); }
+        if (tabLogin) { tabLogin.classList.remove('bg-white', 'text-terracotta-600', 'shadow-sm'); tabLogin.classList.add('text-sand-800'); }
+        if (nameGroup) nameGroup.classList.remove('hidden');
+        if (submitBtn) submitBtn.textContent = 'Crear mi Cuenta Gratis';
+      }
+    };
+  </script>
 
   <!-- Scripts Modulares ES6 -->
   <script type="module" src="js/app.js"></script>
