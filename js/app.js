@@ -58,10 +58,7 @@ const AppState = {
   activeGarmentCategory: 'tops'
 };
 
-/**
- * Inicialización principal
- */
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
   // 1. Inicializar proyectos de ejemplo si es primera vez
   initializeSampleProjects();
 
@@ -98,7 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
   window.switchTab = switchTab;
   window.selectProject = selectProject;
   window.confirmDeleteProject = confirmDeleteProject;
-});
+  window.openAuthModal = openAuthModal;
+  window.closeAuthModal = closeAuthModal;
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 
 /**
  * Configuración de todos los escuchadores de eventos
@@ -703,12 +708,18 @@ function openAuthModal() {
   const modal = document.getElementById('auth-modal');
   clearAuthError();
   setAuthMode('login');
-  modal?.classList.remove('hidden');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+  }
 }
 
 function closeAuthModal() {
   const modal = document.getElementById('auth-modal');
-  modal?.classList.add('hidden');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.style.display = 'none';
+  }
   clearAuthError();
 }
 
