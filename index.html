@@ -175,7 +175,7 @@
               <div id="auth-avatar-circle" class="w-6 h-6 rounded-full bg-terracotta-500 text-white flex items-center justify-center text-[10px] font-bold">
                 <i class="fa-solid fa-user"></i>
               </div>
-              <span id="auth-user-label" class="hidden sm:inline">Iniciar sesión</span>
+              <span id="auth-user-label" class="inline text-xs font-semibold max-w-[110px] truncate">Iniciar sesión</span>
               <span id="auth-cloud-badge" class="hidden w-2 h-2 rounded-full bg-emerald-500" title="Sincronizado en la nube"></span>
             </button>
 
@@ -1504,7 +1504,7 @@
       </div>
 
       <!-- Formulario Auth -->
-      <form id="auth-form" class="space-y-3">
+      <form id="auth-form" onsubmit="window.handleAuthFormSubmit ? window.handleAuthFormSubmit(event) : null" class="space-y-3">
         <div id="auth-name-group" class="hidden">
           <label class="block text-xs font-bold text-sand-800 mb-1">Nombre o Apodo:</label>
           <input type="text" id="auth-input-name" class="input-artisan text-sm" placeholder="ej: Carmen">

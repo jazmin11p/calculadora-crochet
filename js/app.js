@@ -681,31 +681,38 @@ function setupAuthEventListeners() {
   }
 
   // Envío de formulario email/password
-  if (authForm) {
-    authForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('auth-input-email')?.value.trim();
-      const password = document.getElementById('auth-input-password')?.value;
-      const name = document.getElementById('auth-input-name')?.value.trim();
+  window.handleAuthFormSubmit = async function(e) {
+    if (e) e.preventDefault();
+    const email = document.getElementById('auth-input-email')?.value.trim();
+    const password = document.getElementById('auth-input-password')?.value;
+    const name = document.getElementById('auth-input-name')?.value.trim();
 
-      try {
-        setAuthLoading(true);
-        clearAuthError();
-        if (authMode === 'login') {
-          const user = await loginWithEmail(email, password);
-          closeAuthModal();
-          showToast(`¡Hola de nuevo, ${user.displayName || 'tejedora'}! 🧶`, 'success');
-        } else {
-          const user = await registerWithEmail(email, password, name);
-          closeAuthModal();
-          showToast(`¡Cuenta creada con éxito! Bienvenida, ${user.displayName} 🧶`, 'success');
-        }
-      } catch (err) {
-        showAuthError(err.message || 'Ocurrió un error al procesar tu solicitud.');
-      } finally {
-        setAuthLoading(false);
+    if (!email) {
+      showAuthError('Por favor ingresa tu correo electrónico.');
+      return;
+    }
+
+    try {
+      setAuthLoading(true);
+      clearAuthError();
+      if (authMode === 'login') {
+        const user = await loginWithEmail(email, password);
+        closeAuthModal();
+        showToast(`¡Sesión iniciada como ${user.email}! ☁️✨`, 'success');
+      } else {
+        const user = await registerWithEmail(email, password, name);
+        closeAuthModal();
+        showToast(`¡Cuenta creada con éxito! Bienvenida, ${user.displayName} 🧶`, 'success');
       }
-    });
+    } catch (err) {
+      showAuthError(err.message || 'Ocurrió un error al procesar tu solicitud.');
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  if (authForm) {
+    authForm.addEventListener('submit', window.handleAuthFormSubmit);
   }
 
   // Cerrar sesión
