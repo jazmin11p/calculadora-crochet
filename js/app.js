@@ -683,9 +683,9 @@ function setupAuthEventListeners() {
   // Envío de formulario email/password
   window.handleAuthFormSubmit = async function(e) {
     if (e) e.preventDefault();
-    const email = document.getElementById('auth-input-email')?.value.trim();
-    const password = document.getElementById('auth-input-password')?.value;
-    const name = document.getElementById('auth-input-name')?.value.trim();
+    const email = document.getElementById('auth-input-email')?.value?.trim();
+    const password = document.getElementById('auth-input-password')?.value || '';
+    const name = document.getElementById('auth-input-name')?.value?.trim();
 
     if (!email) {
       showAuthError('Por favor ingresa tu correo electrónico.');
@@ -693,7 +693,6 @@ function setupAuthEventListeners() {
     }
 
     try {
-      setAuthLoading(true);
       clearAuthError();
       let user;
       if (authMode === 'login') {
@@ -702,8 +701,8 @@ function setupAuthEventListeners() {
         user = await registerWithEmail(email, password, name);
       }
       closeAuthModal();
-      showToast(`¡Sesión iniciada como ${user.email}! ☁️✨`, 'success');
-      await handleAuthStatusChange(user);
+      showToast(`¡Bienvenida, ${user.displayName || user.email}! ☁️✨`, 'success');
+      handleAuthStatusChange(user);
     } catch (err) {
       showAuthError(err.message || 'Ocurrió un error al procesar tu solicitud.');
     } finally {
@@ -813,7 +812,7 @@ function setAuthLoading(loading) {
 /**
  * Actualiza la UI del header cuando el estado de autenticación cambia
  */
-async function handleAuthStatusChange(user) {
+function handleAuthStatusChange(user) {
   const authAvatarCircle = document.getElementById('auth-avatar-circle');
   const authUserLabel = document.getElementById('auth-user-label');
   const authCloudBadge = document.getElementById('auth-cloud-badge');
@@ -837,11 +836,12 @@ async function handleAuthStatusChange(user) {
     if (dropdownUserName) dropdownUserName.textContent = displayName;
     if (dropdownUserEmail) dropdownUserEmail.textContent = user.email || 'Cuenta vinculada';
 
-    // Sincronizar datos con la nube y refrescar UI
-    await syncUserDataOnLogin(user);
-    refreshProjectsList();
-    AppState.activeCounter = getActiveCounter();
-    updateCounterUI();
+    // Sincronizar datos con la nube en segundo plano de forma no bloqueante
+    syncUserDataOnLogin(user).then(() => {
+      refreshProjectsList();
+      AppState.activeCounter = getActiveCounter();
+      updateCounterUI();
+    }).catch(e => console.warn('Sync cloud warning:', e));
 
     // Activar sincronización en tiempo real multidispositivo
     listenToRealtimeCloudUpdates(user, (updatedProjects) => {
