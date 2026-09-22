@@ -12,7 +12,8 @@ import {
   saveActiveCounter, 
   processImageFile, 
   initializeSampleProjects,
-  syncUserDataOnLogin
+  syncUserDataOnLogin,
+  listenToRealtimeCloudUpdates
 } from './storage.js';
 import { 
   initAuth, 
@@ -793,6 +794,13 @@ async function handleAuthStatusChange(user) {
     refreshProjectsList();
     AppState.activeCounter = getActiveCounter();
     updateCounterUI();
+
+    // Activar sincronización en tiempo real multidispositivo
+    listenToRealtimeCloudUpdates(user, (updatedProjects) => {
+      refreshProjectsList();
+      AppState.activeCounter = getActiveCounter();
+      updateCounterUI();
+    });
   } else {
     if (authUserLabel) authUserLabel.textContent = 'Iniciar sesión';
     if (authAvatarCircle) authAvatarCircle.innerHTML = '<i class="fa-solid fa-user"></i>';

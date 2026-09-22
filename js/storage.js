@@ -11,9 +11,10 @@ import {
   getDoc,
   collection,
   getDocs,
-  deleteDoc
+  deleteDoc,
+  onSnapshot
 } from './firebase-config.js';
-import { getCurrentUser } from './auth.js';
+import { getCurrentUser, generateUidForEmail } from './auth.js';
 
 const STORAGE_KEYS = {
   PROJECTS: 'crochetcalc_projects_v1',
@@ -35,6 +36,15 @@ export function getProjects() {
     console.error('Error al leer proyectos de LocalStorage', e);
     return [];
   }
+}
+
+/**
+ * Obtiene el ID efectivo del usuario (UID o generado por email)
+ */
+export function getEffectiveUserId(user) {
+  if (!user) return null;
+  if (user.email) return generateUidForEmail(user.email);
+  return user.uid || null;
 }
 
 /**
@@ -62,8 +72,9 @@ export function saveProject(project) {
 
     // Si hay usuario conectado, sincronizar en segundo plano con Cloud Firestore
     const user = getCurrentUser();
-    if (user && user.uid) {
-      syncProjectToCloud(user.uid, projectToSave).catch(e => console.warn('Sync cloud project warning:', e));
+    const userId = getEffectiveUserId(user);
+    if (userId) {
+      syncProjectToCloud(userId, projectToSave).catch(e => console.warn('Sync cloud project warning:', e));
     }
 
     return projectToSave;
@@ -82,8 +93,9 @@ export function deleteProject(id) {
     localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(projects));
 
     const user = getCurrentUser();
-    if (user && user.uid) {
-      deleteProjectFromCloud(user.uid, id).catch(e => console.warn('Delete cloud project warning:', e));
+    const userId = getEffectiveUserId(user);
+    if (userId) {
+      deleteProjectFromCloud(userId, id).catch(e => console.warn('Delete cloud project warning:', e));
     }
 
     return true;
@@ -120,8 +132,9 @@ export function saveActiveCounter(counterData) {
     localStorage.setItem(STORAGE_KEYS.ACTIVE_COUNTER, JSON.stringify(counterData));
 
     const user = getCurrentUser();
-    if (user && user.uid) {
-      syncCounterToCloud(user.uid, counterData).catch(e => console.warn('Sync counter cloud warning:', e));
+    const userId = getEffectiveUserId(user);
+    if (userId) {
+      syncCounterToCloud(userId, counterData).catch(e => console.warn('Sync counter cloud warning:', e));
     }
   } catch (e) {
     console.error('Error al guardar contador', e);
@@ -161,8 +174,10 @@ export function processImageFile(file, maxWidth = 800, quality = 0.75) {
     }
 
     const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.onload = (e) => {
       const img = new Image();
+      img.src = e.target.result;
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let width = img.width;
@@ -175,18 +190,15 @@ export function processImageFile(file, maxWidth = 800, quality = 0.75) {
 
         canvas.width = width;
         canvas.height = height;
-
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
 
-        const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
-        resolve(compressedDataUrl);
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve(dataUrl);
       };
-      img.onerror = () => reject(new Error('No se pudo decodificar la imagen.'));
-      img.src = e.target.result;
+      img.onerror = () => reject(new Error('Error al procesar la imagen seleccionada.'));
     };
     reader.onerror = () => reject(new Error('Error al leer el archivo.'));
-    reader.readAsDataURL(file);
   });
 }
 
@@ -216,18 +228,19 @@ export function exportAllData() {
 // MÉTODOS DE SINCRONIZACIÓN EN LA NUBE (FIRESTORE)
 // ==========================================
 
-async function syncProjectToCloud(userId, project) {
-  if (!isFirebaseInitialized || !db) return;
+export async function syncProjectToCloud(userId, project) {
+  if (!isFirebaseInitialized || !db || !userId) return;
   try {
     const projectRef = doc(db, 'users', userId, 'projects', project.id);
     await setDoc(projectRef, project, { merge: true });
+    console.log('Proyecto sincronizado en Firestore:', project.title || project.id);
   } catch (err) {
     console.warn('Error al sincronizar proyecto con Firestore:', err.message);
   }
 }
 
-async function deleteProjectFromCloud(userId, projectId) {
-  if (!isFirebaseInitialized || !db) return;
+export async function deleteProjectFromCloud(userId, projectId) {
+  if (!isFirebaseInitialized || !db || !userId) return;
   try {
     const projectRef = doc(db, 'users', userId, 'projects', projectId);
     await deleteDoc(projectRef);
@@ -236,8 +249,8 @@ async function deleteProjectFromCloud(userId, projectId) {
   }
 }
 
-async function syncCounterToCloud(userId, counterData) {
-  if (!isFirebaseInitialized || !db) return;
+export async function syncCounterToCloud(userId, counterData) {
+  if (!isFirebaseInitialized || !db || !userId) return;
   try {
     const counterRef = doc(db, 'users', userId, 'userData', 'activeCounter');
     await setDoc(counterRef, counterData, { merge: true });
@@ -246,50 +259,89 @@ async function syncCounterToCloud(userId, counterData) {
   }
 }
 
+let activeSnapshotUnsubscribe = null;
+
 /**
- * Sincroniza y fusiona todos los datos entre la nube y el dispositivo al iniciar sesión
+ * Escucha cambios en tiempo real desde Firestore
  */
-export async function syncUserDataOnLogin(user) {
-  if (!user || !user.uid) return;
+export function listenToRealtimeCloudUpdates(user, onUpdate) {
+  if (activeSnapshotUnsubscribe) {
+    activeSnapshotUnsubscribe();
+    activeSnapshotUnsubscribe = null;
+  }
+  const userId = getEffectiveUserId(user);
+  if (!userId || !isFirebaseInitialized || !db) return;
 
   try {
-    // 1. Subir proyectos locales que no estén en la nube
-    const localProjects = getProjects();
-    if (isFirebaseInitialized && db) {
-      const projectsCol = collection(db, 'users', user.uid, 'projects');
-      const snapshot = await getDocs(projectsCol);
+    const projectsCol = collection(db, 'users', userId, 'projects');
+    activeSnapshotUnsubscribe = onSnapshot(projectsCol, (snapshot) => {
       const cloudProjects = [];
       snapshot.forEach(docSnap => {
         cloudProjects.push({ id: docSnap.id, ...docSnap.data() });
       });
 
-      // Crear mapa combinado
-      const mergedMap = new Map();
-      cloudProjects.forEach(p => mergedMap.set(p.id, p));
-      localProjects.forEach(p => {
-        if (!mergedMap.has(p.id)) {
-          mergedMap.set(p.id, p);
-          // Subir a la nube
-          syncProjectToCloud(user.uid, p);
+      if (cloudProjects.length > 0) {
+        cloudProjects.sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
+        localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(cloudProjects));
+        if (typeof onUpdate === 'function') {
+          onUpdate(cloudProjects);
         }
-      });
-
-      const finalProjects = Array.from(mergedMap.values());
-      localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(finalProjects));
-
-      // 2. Traer contador de vueltas de la nube si existe
-      const counterRef = doc(db, 'users', user.uid, 'userData', 'activeCounter');
-      const counterSnap = await getDoc(counterRef);
-      if (counterSnap.exists()) {
-        localStorage.setItem(STORAGE_KEYS.ACTIVE_COUNTER, JSON.stringify(counterSnap.data()));
-      } else {
-        // Subir el local
-        syncCounterToCloud(user.uid, getActiveCounter());
       }
+    }, (err) => {
+      console.warn('Error en snapshot de Firestore:', err);
+    });
+  } catch (e) {
+    console.warn('No se pudo inicializar listener en tiempo real:', e);
+  }
+}
+
+/**
+ * Sincroniza y fusiona todos los datos entre la nube y el dispositivo al iniciar sesión
+ */
+export async function syncUserDataOnLogin(user) {
+  if (!user) return false;
+  const userId = getEffectiveUserId(user);
+  if (!userId || !isFirebaseInitialized || !db) return false;
+
+  try {
+    const localProjects = getProjects();
+    const projectsCol = collection(db, 'users', userId, 'projects');
+    const snapshot = await getDocs(projectsCol);
+    const cloudProjects = [];
+    snapshot.forEach(docSnap => {
+      cloudProjects.push({ id: docSnap.id, ...docSnap.data() });
+    });
+
+    const mergedMap = new Map();
+    cloudProjects.forEach(p => mergedMap.set(p.id, p));
+
+    const uploadPromises = [];
+    localProjects.forEach(p => {
+      if (!mergedMap.has(p.id)) {
+        mergedMap.set(p.id, p);
+        uploadPromises.push(syncProjectToCloud(userId, p));
+      }
+    });
+
+    if (uploadPromises.length > 0) {
+      await Promise.all(uploadPromises);
+    }
+
+    const finalProjects = Array.from(mergedMap.values());
+    finalProjects.sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
+    localStorage.setItem(STORAGE_KEYS.PROJECTS, JSON.stringify(finalProjects));
+
+    // Contador de vueltas
+    const counterRef = doc(db, 'users', userId, 'userData', 'activeCounter');
+    const counterSnap = await getDoc(counterRef);
+    if (counterSnap.exists()) {
+      localStorage.setItem(STORAGE_KEYS.ACTIVE_COUNTER, JSON.stringify(counterSnap.data()));
+    } else {
+      await syncCounterToCloud(userId, getActiveCounter());
     }
     return true;
   } catch (err) {
-    console.warn('Sincronización en segundo plano completada con modo local:', err.message);
+    console.error('Error en syncUserDataOnLogin:', err);
     return false;
   }
 }

@@ -45,6 +45,15 @@ function saveLocalUsersDb(users) {
   }
 }
 
+export function generateUidForEmail(email) {
+  if (!email) return 'usr_guest';
+  try {
+    return 'usr_' + btoa(unescape(encodeURIComponent(email.toLowerCase().trim()))).replace(/[^a-zA-Z0-9]/g, '').slice(0, 24);
+  } catch (e) {
+    return 'usr_' + email.toLowerCase().trim().replace(/[^a-zA-Z0-9]/g, '');
+  }
+}
+
 /**
  * Retorna el usuario actualmente conectado
  */
@@ -55,8 +64,10 @@ export function getCurrentUser() {
     const saved = localStorage.getItem(LOCAL_AUTH_KEY);
     if (saved) {
       const user = JSON.parse(saved);
-      if (user && user.email !== 'tejedora.artesana@gmail.com') {
+      if (user && user.email && user.email !== 'tejedora.artesana@gmail.com') {
+        user.uid = generateUidForEmail(user.email);
         currentUser = user;
+        localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
         return currentUser;
       } else {
         localStorage.removeItem(LOCAL_AUTH_KEY);
@@ -113,15 +124,7 @@ export async function loginWithGoogle() {
   } else {
     throw new Error('El inicio de sesión directo con Google requiere configuración de Firebase. Por favor regístrate o inicia sesión con tu correo.');
   }
-}
 
-function generateUidForEmail(email) {
-  try {
-    return 'usr_' + btoa(unescape(encodeURIComponent(email.toLowerCase().trim()))).replace(/[^a-zA-Z0-9]/g, '').slice(0, 24);
-  } catch (e) {
-    return 'usr_' + email.toLowerCase().trim().replace(/[^a-zA-Z0-9]/g, '');
-  }
-}
 
 /**
  * Iniciar sesión con Email y Contraseña
