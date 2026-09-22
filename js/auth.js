@@ -124,7 +124,7 @@ export async function loginWithGoogle() {
   } else {
     throw new Error('El inicio de sesión directo con Google requiere configuración de Firebase. Por favor regístrate o inicia sesión con tu correo.');
   }
-
+}
 
 /**
  * Iniciar sesión con Email y Contraseña
