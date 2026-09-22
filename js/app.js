@@ -797,6 +797,8 @@ async function handleAuthStatusChange(user) {
     if (authUserLabel) authUserLabel.textContent = 'Iniciar sesión';
     if (authAvatarCircle) authAvatarCircle.innerHTML = '<i class="fa-solid fa-user"></i>';
     if (authCloudBadge) authCloudBadge.classList.add('hidden');
+    if (dropdownUserName) dropdownUserName.textContent = 'Mi Cuenta';
+    if (dropdownUserEmail) dropdownUserEmail.textContent = '';
     refreshProjectsList();
   }
 }

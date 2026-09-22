@@ -7,6 +7,7 @@ import {
   auth,
   googleProvider,
   isFirebaseInitialized,
+  isFirebaseConfigured,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -18,8 +19,31 @@ import {
 let currentUser = null;
 let authListeners = [];
 
-// Clave para guardar sesión local/offline cuando no hay backend configurado
-const LOCAL_AUTH_KEY = 'crochetcalc_simulated_user_v1';
+const LOCAL_AUTH_KEY = 'crochetcalc_active_user_v1';
+const LOCAL_USERS_DB_KEY = 'crochetcalc_registered_users_v1';
+const LEGACY_DUMMY_KEY = 'crochetcalc_simulated_user_v1';
+
+// Limpiar sesión heredada de prueba si existiera
+try {
+  localStorage.removeItem(LEGACY_DUMMY_KEY);
+} catch (e) {}
+
+function getLocalUsersDb() {
+  try {
+    const saved = localStorage.getItem(LOCAL_USERS_DB_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveLocalUsersDb(users) {
+  try {
+    localStorage.setItem(LOCAL_USERS_DB_KEY, JSON.stringify(users));
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 /**
  * Retorna el usuario actualmente conectado
@@ -27,12 +51,16 @@ const LOCAL_AUTH_KEY = 'crochetcalc_simulated_user_v1';
 export function getCurrentUser() {
   if (currentUser) return currentUser;
   
-  // Revisar si hay un usuario demo/local persistido
   try {
     const saved = localStorage.getItem(LOCAL_AUTH_KEY);
     if (saved) {
-      currentUser = JSON.parse(saved);
-      return currentUser;
+      const user = JSON.parse(saved);
+      if (user && user.email !== 'tejedora.artesana@gmail.com') {
+        currentUser = user;
+        return currentUser;
+      } else {
+        localStorage.removeItem(LOCAL_AUTH_KEY);
+      }
     }
   } catch (e) {
     console.error(e);
@@ -52,7 +80,6 @@ export function isLoggedIn() {
  */
 export function onAuthChange(callback) {
   authListeners.push(callback);
-  // Ejecutar inmediatamente con el estado actual
   callback(getCurrentUser());
 }
 
@@ -67,7 +94,7 @@ function notifyAuthChange(user) {
  * Iniciar sesión con Google
  */
 export async function loginWithGoogle() {
-  if (isFirebaseInitialized && auth && googleProvider) {
+  if (isFirebaseConfigured && isFirebaseInitialized && auth && googleProvider) {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = {
@@ -77,34 +104,14 @@ export async function loginWithGoogle() {
         photoURL: result.user.photoURL || '',
         provider: 'google'
       };
+      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
       notifyAuthChange(user);
       return user;
     } catch (err) {
-      console.warn('Fallo Google Firebase Auth, usando modo local asistido:', err.message);
-      // Si falla por configuración de dominio / api key, ofrecemos simulación amigable
-      const simulatedUser = {
-        uid: 'user_google_' + Date.now(),
-        email: 'tejedora.artesana@gmail.com',
-        displayName: 'Tejedora Artesana',
-        photoURL: '',
-        provider: 'google'
-      };
-      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(simulatedUser));
-      notifyAuthChange(simulatedUser);
-      return simulatedUser;
+      throw new Error('Error al conectar con Google: ' + err.message);
     }
   } else {
-    // Modo local / demostración
-    const simulatedUser = {
-      uid: 'user_google_' + Date.now(),
-      email: 'tejedora.artesana@gmail.com',
-      displayName: 'Tejedora Artesana',
-      photoURL: '',
-      provider: 'google'
-    };
-    localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(simulatedUser));
-    notifyAuthChange(simulatedUser);
-    return simulatedUser;
+    throw new Error('El inicio de sesión directo con Google requiere configuración de Firebase. Por favor regístrate o inicia sesión con tu correo.');
   }
 }
 
@@ -113,44 +120,67 @@ export async function loginWithGoogle() {
  */
 export async function loginWithEmail(email, password) {
   if (!email || !password) throw new Error('Por favor completa correo y contraseña.');
+  const cleanEmail = email.trim().toLowerCase();
 
-  if (isFirebaseInitialized && auth) {
+  if (isFirebaseConfigured && isFirebaseInitialized && auth) {
     try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
+      const result = await signInWithEmailAndPassword(auth, cleanEmail, password);
       const user = {
         uid: result.user.uid,
         email: result.user.email,
-        displayName: result.user.displayName || email.split('@')[0],
+        displayName: result.user.displayName || cleanEmail.split('@')[0],
         photoURL: result.user.photoURL || '',
         provider: 'email'
       };
+      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
       notifyAuthChange(user);
       return user;
     } catch (err) {
-      console.warn('Firebase login error, usando fallback:', err.message);
-      // Modo demo si falla Firebase
-      const simulatedUser = {
-        uid: 'user_' + btoa(email).replace(/=/g, '').slice(0, 12),
-        email: email,
-        displayName: email.split('@')[0],
+      throw new Error(err.message || 'Credenciales no válidas.');
+    }
+  } else {
+    // Autenticación local persistente para el usuario
+    const users = getLocalUsersDb();
+    const existing = users.find(u => u.email === cleanEmail);
+    
+    if (existing) {
+      if (existing.password !== password) {
+        throw new Error('La contraseña ingresada es incorrecta.');
+      }
+      const user = {
+        uid: existing.uid,
+        email: existing.email,
+        displayName: existing.displayName || cleanEmail.split('@')[0],
         photoURL: '',
         provider: 'email'
       };
-      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(simulatedUser));
-      notifyAuthChange(simulatedUser);
-      return simulatedUser;
+      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
+      notifyAuthChange(user);
+      return user;
+    } else {
+      // Si el usuario aún no está registrado localmente, registrarlo automáticamente
+      const displayName = cleanEmail.split('@')[0];
+      const newUser = {
+        uid: 'user_' + Date.now(),
+        email: cleanEmail,
+        password: password,
+        displayName: displayName,
+        createdAt: new Date().toISOString()
+      };
+      users.push(newUser);
+      saveLocalUsersDb(users);
+
+      const user = {
+        uid: newUser.uid,
+        email: newUser.email,
+        displayName: newUser.displayName,
+        photoURL: '',
+        provider: 'email'
+      };
+      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
+      notifyAuthChange(user);
+      return user;
     }
-  } else {
-    const simulatedUser = {
-      uid: 'user_' + btoa(email).replace(/=/g, '').slice(0, 12),
-      email: email,
-      displayName: email.split('@')[0],
-      photoURL: '',
-      provider: 'email'
-    };
-    localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(simulatedUser));
-    notifyAuthChange(simulatedUser);
-    return simulatedUser;
   }
 }
 
@@ -161,11 +191,12 @@ export async function registerWithEmail(email, password, displayName = '') {
   if (!email || !password) throw new Error('Por favor completa correo y contraseña.');
   if (password.length < 6) throw new Error('La contraseña debe tener al menos 6 caracteres.');
 
-  const name = displayName.trim() || email.split('@')[0];
+  const cleanEmail = email.trim().toLowerCase();
+  const name = displayName.trim() || cleanEmail.split('@')[0];
 
-  if (isFirebaseInitialized && auth) {
+  if (isFirebaseConfigured && isFirebaseInitialized && auth) {
     try {
-      const result = await createUserWithEmailAndPassword(auth, email, password);
+      const result = await createUserWithEmailAndPassword(auth, cleanEmail, password);
       if (name) {
         await updateProfile(result.user, { displayName: name });
       }
@@ -176,32 +207,40 @@ export async function registerWithEmail(email, password, displayName = '') {
         photoURL: '',
         provider: 'email'
       };
+      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
       notifyAuthChange(user);
       return user;
     } catch (err) {
-      console.warn('Firebase register error, usando fallback:', err.message);
-      const simulatedUser = {
-        uid: 'user_' + Date.now(),
-        email: email,
-        displayName: name,
-        photoURL: '',
-        provider: 'email'
-      };
-      localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(simulatedUser));
-      notifyAuthChange(simulatedUser);
-      return simulatedUser;
+      throw new Error(err.message || 'Error al crear la cuenta en Firebase.');
     }
   } else {
-    const simulatedUser = {
+    const users = getLocalUsersDb();
+    const existingIndex = users.findIndex(u => u.email === cleanEmail);
+    
+    if (existingIndex >= 0) {
+      users[existingIndex].password = password;
+      users[existingIndex].displayName = name;
+    } else {
+      users.push({
+        uid: 'user_' + Date.now(),
+        email: cleanEmail,
+        password: password,
+        displayName: name,
+        createdAt: new Date().toISOString()
+      });
+    }
+    saveLocalUsersDb(users);
+
+    const user = {
       uid: 'user_' + Date.now(),
-      email: email,
+      email: cleanEmail,
       displayName: name,
       photoURL: '',
       provider: 'email'
     };
-    localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(simulatedUser));
-    notifyAuthChange(simulatedUser);
-    return simulatedUser;
+    localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
+    notifyAuthChange(user);
+    return user;
   }
 }
 
@@ -209,7 +248,7 @@ export async function registerWithEmail(email, password, displayName = '') {
  * Cerrar sesión
  */
 export async function logoutUser() {
-  if (isFirebaseInitialized && auth) {
+  if (isFirebaseConfigured && isFirebaseInitialized && auth) {
     try {
       await signOut(auth);
     } catch (e) {
@@ -221,10 +260,10 @@ export async function logoutUser() {
 }
 
 /**
- * Inicializa el observador de Firebase Auth
+ * Inicializa el observador de Auth
  */
 export function initAuth() {
-  if (isFirebaseInitialized && auth) {
+  if (isFirebaseConfigured && isFirebaseInitialized && auth) {
     onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         const user = {
@@ -234,6 +273,7 @@ export function initAuth() {
           photoURL: firebaseUser.photoURL || '',
           provider: firebaseUser.providerData[0]?.providerId || 'firebase'
         };
+        localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(user));
         notifyAuthChange(user);
       } else {
         const localUser = getCurrentUser();

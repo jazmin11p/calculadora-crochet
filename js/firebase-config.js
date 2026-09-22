@@ -40,16 +40,19 @@ let auth = null;
 let db = null;
 let googleProvider = null;
 let isFirebaseInitialized = false;
+const isFirebaseConfigured = Boolean(window.FIREBASE_API_KEY && !window.FIREBASE_API_KEY.includes('DummyKey'));
 
 try {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
-  googleProvider = new GoogleAuthProvider();
-  googleProvider.setCustomParameters({ prompt: 'select_account' });
-  isFirebaseInitialized = true;
+  if (isFirebaseConfigured) {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+    googleProvider = new GoogleAuthProvider();
+    googleProvider.setCustomParameters({ prompt: 'select_account' });
+    isFirebaseInitialized = true;
+  }
 } catch (err) {
-  console.warn('Firebase inicializado en modo simulado/offline:', err.message);
+  console.warn('Firebase error de inicialización:', err.message);
 }
 
 export { 
@@ -58,6 +61,7 @@ export {
   db, 
   googleProvider, 
   isFirebaseInitialized,
+  isFirebaseConfigured,
   signInWithPopup, 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
