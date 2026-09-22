@@ -171,7 +171,7 @@
 
           <!-- Botón de Cuenta de Usuario / Sincronización en la Nube -->
           <div class="relative">
-            <button id="btn-auth-header" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-terracotta-50 hover:bg-terracotta-100 text-terracotta-700 border border-terracotta-200 transition text-xs font-bold shadow-sm">
+            <button id="btn-auth-header" onclick="window.handleAuthHeaderClick ? window.handleAuthHeaderClick(event) : (window.openAuthModal ? window.openAuthModal() : document.getElementById('auth-modal').classList.remove('hidden'))" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-terracotta-50 hover:bg-terracotta-100 text-terracotta-700 border border-terracotta-200 transition text-xs font-bold shadow-sm cursor-pointer">
               <div id="auth-avatar-circle" class="w-6 h-6 rounded-full bg-terracotta-500 text-white flex items-center justify-center text-[10px] font-bold">
                 <i class="fa-solid fa-user"></i>
               </div>
@@ -183,15 +183,15 @@
             <div id="user-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-sand-200 py-2 z-50 text-sand-900">
               <div class="px-4 py-2 border-b border-sand-100">
                 <p id="dropdown-user-name" class="font-bold text-sm text-sand-900 truncate">Mi Cuenta</p>
-                <p id="dropdown-user-email" class="text-xs text-sand-800/70 truncate">offline@local</p>
+                <p id="dropdown-user-email" class="text-xs text-sand-800/70 truncate"></p>
                 <div class="flex items-center gap-1 mt-1 text-[11px] text-emerald-600 font-semibold">
                   <span class="material-symbols-outlined text-[14px]">cloud_done</span> Sincronizado en la nube
                 </div>
               </div>
-              <button id="btn-dropdown-sync" class="w-full text-left px-4 py-2 text-xs hover:bg-sand-50 flex items-center gap-2 text-sand-800 font-medium">
+              <button id="btn-dropdown-sync" onclick="window.handleForceSync && window.handleForceSync()" class="w-full text-left px-4 py-2 text-xs hover:bg-sand-50 flex items-center gap-2 text-sand-800 font-medium cursor-pointer">
                 <i class="fa-solid fa-arrows-rotate text-terracotta-500"></i> Forzar sincronización
               </button>
-              <button id="btn-dropdown-logout" class="w-full text-left px-4 py-2 text-xs hover:bg-rose-50 text-rose-600 flex items-center gap-2 font-bold border-t border-sand-100 mt-1">
+              <button id="btn-dropdown-logout" onclick="window.handleLogout && window.handleLogout()" class="w-full text-left px-4 py-2 text-xs hover:bg-rose-50 text-rose-600 flex items-center gap-2 font-bold border-t border-sand-100 mt-1 cursor-pointer">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
               </button>
             </div>
@@ -1466,7 +1466,7 @@
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-sand-200 relative animate-scale-in">
       
       <!-- Botón cerrar -->
-      <button id="btn-close-auth-modal" class="absolute top-4 right-4 text-sand-800/60 hover:text-terracotta-600 p-2 rounded-full hover:bg-sand-100 transition">
+      <button id="btn-close-auth-modal" onclick="window.closeAuthModal ? window.closeAuthModal() : document.getElementById('auth-modal').classList.add('hidden')" class="absolute top-4 right-4 text-sand-800/60 hover:text-terracotta-600 p-2 rounded-full hover:bg-sand-100 transition cursor-pointer">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
@@ -1480,7 +1480,7 @@
       </div>
 
       <!-- Botón de acceso con Google -->
-      <button id="btn-login-google" class="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-2xl border border-sand-300 bg-white hover:bg-sand-50 text-sand-900 font-bold text-sm shadow-sm transition transform active:scale-95 mb-4">
+      <button id="btn-login-google" class="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-2xl border border-sand-300 bg-white hover:bg-sand-50 text-sand-900 font-bold text-sm shadow-sm transition transform active:scale-95 mb-4 cursor-pointer">
         <svg class="w-5 h-5" viewBox="0 0 24 24">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
           <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -1499,8 +1499,8 @@
 
       <!-- Selector de Pestañas: Login vs Registro -->
       <div class="flex bg-sand-100 p-1 rounded-xl mb-4 text-xs font-bold">
-        <button id="tab-auth-login" class="flex-1 py-2 rounded-lg bg-white text-terracotta-600 shadow-sm transition">Iniciar Sesión</button>
-        <button id="tab-auth-register" class="flex-1 py-2 rounded-lg text-sand-800 hover:text-terracotta-600 transition">Crear Cuenta</button>
+        <button type="button" id="tab-auth-login" onclick="window.setAuthMode && window.setAuthMode('login')" class="flex-1 py-2 rounded-lg bg-white text-terracotta-600 shadow-sm transition cursor-pointer">Iniciar Sesión</button>
+        <button type="button" id="tab-auth-register" onclick="window.setAuthMode && window.setAuthMode('register')" class="flex-1 py-2 rounded-lg text-sand-800 hover:text-terracotta-600 transition cursor-pointer">Crear Cuenta</button>
       </div>
 
       <!-- Formulario Auth -->

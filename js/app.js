@@ -97,6 +97,36 @@ function initApp() {
   window.confirmDeleteProject = confirmDeleteProject;
   window.openAuthModal = openAuthModal;
   window.closeAuthModal = closeAuthModal;
+  window.setAuthMode = setAuthMode;
+  window.handleAuthHeaderClick = function(e) {
+    if (e) e.stopPropagation();
+    const user = getCurrentUser();
+    const userDropdownMenu = document.getElementById('user-dropdown-menu');
+    if (user) {
+      userDropdownMenu?.classList.toggle('hidden');
+    } else {
+      openAuthModal();
+    }
+  };
+  window.handleLogout = async function() {
+    await logoutUser();
+    const userDropdownMenu = document.getElementById('user-dropdown-menu');
+    userDropdownMenu?.classList.add('hidden');
+    showToast('Has cerrado sesión. Tus datos siguen guardados localmente.', 'info');
+  };
+  window.handleForceSync = async function() {
+    const user = getCurrentUser();
+    if (user) {
+      showToast('Sincronizando con la nube...', 'info');
+      await syncUserDataOnLogin(user);
+      refreshProjectsList();
+      AppState.activeCounter = getActiveCounter();
+      updateCounterUI();
+      showToast('¡Todo sincronizado en la nube! ☁️✨', 'success');
+      const userDropdownMenu = document.getElementById('user-dropdown-menu');
+      userDropdownMenu?.classList.add('hidden');
+    }
+  };
 }
 
 if (document.readyState === 'loading') {
