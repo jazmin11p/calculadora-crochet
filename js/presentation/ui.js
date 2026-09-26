@@ -5,6 +5,7 @@
 
 import { YARN_STANDARDS, HOOK_SIZES, CROCHET_GLOSSARY } from '../domain/data/yarnData.js';
 import { GARMENT_CATEGORIES, EASE_OPTIONS } from '../domain/data/presetsData.js';
+import { yarnOptionLabel, hookOptionLabel } from './labels.js';
 
 /**
  * Muestra una notificación tipo Toast emergente
@@ -88,9 +89,7 @@ export function populateSelectElements() {
   ];
 
   const yarnOptionsHtml = YARN_STANDARDS.map(y => 
-    `<option value="${y.id}" ${y.id === 4 ? 'selected' : ''}>
-      CYC #${y.cyc} - ${y.nameES} (${y.wpi})
-    </option>`
+    `<option value="${y.id}" ${y.id === 4 ? 'selected' : ''}>${yarnOptionLabel(y)}</option>`
   ).join('');
 
   yarnSelects.forEach(select => {
@@ -110,9 +109,7 @@ export function populateSelectElements() {
   ];
 
   const hookOptionsHtml = HOOK_SIZES.map(h => 
-    `<option value="${h.mm}">
-      ${h.mm} mm (US: ${h.us}${h.uk !== '-' ? ` | UK: ${h.uk}` : ''})
-    </option>`
+    `<option value="${h.mm}">${hookOptionLabel(h)}</option>`
   ).join('');
 
   hookSelects.forEach(select => {
@@ -335,11 +332,11 @@ export function renderYarnTable() {
       </td>
       <td class="p-3.5">
         <strong class="text-sand-900 block">${y.nameES}</strong>
-        <span class="text-[11px] text-sand-800/70">${y.types}</span>
+        <span class="text-[11px] text-sand-800">${y.types}</span>
       </td>
       <td class="p-3.5 font-semibold text-terracotta-600">
         ${y.recommendedHookMin} - ${y.recommendedHookMax} mm
-        <span class="text-[11px] text-sand-800/60 block">US: ${y.recommendedHookUS}</span>
+        <span class="text-[11px] text-sand-800 block">US: ${y.recommendedHookUS}</span>
       </td>
       <td class="p-3.5 font-medium text-sand-800">${y.wpi}</td>
       <td class="p-3.5 font-bold text-sage-700">~${y.defaultStitches10cm} pts</td>
@@ -360,7 +357,7 @@ export function renderHookTable() {
       <td class="p-3.5 font-bold text-terracotta-700 text-sm">${h.mm} mm</td>
       <td class="p-3.5 font-bold text-sand-900">${h.us}</td>
       <td class="p-3.5 text-sand-800 font-medium">${h.uk}</td>
-      <td class="p-3.5 text-sand-800/80 text-xs">${h.note}</td>
+      <td class="p-3.5 text-sand-800 text-xs">${h.note}</td>
     </tr>
   `).join('');
 }
@@ -389,7 +386,7 @@ export function renderGlossaryTable(filterQuery = '') {
   if (filtered.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="5" class="p-6 text-center text-sand-800/60 font-medium">
+        <td colspan="5" class="p-6 text-center text-sand-800 font-medium">
           No se encontraron puntos con el término "${filterQuery}".
         </td>
       </tr>
@@ -405,14 +402,14 @@ export function renderGlossaryTable(filterQuery = '') {
       </td>
       <td class="p-3.5">
         <span class="font-bold text-sand-900 block">${item.us}</span>
-        <span class="text-[11px] font-mono text-sand-800/70">(${item.usAbbr})</span>
+        <span class="text-[11px] font-mono text-sand-800">(${item.usAbbr})</span>
       </td>
       <td class="p-3.5">
         <span class="font-bold text-sand-900 block">${item.uk}</span>
-        <span class="text-[11px] font-mono text-sand-800/70">(${item.ukAbbr})</span>
+        <span class="text-[11px] font-mono text-sand-800">(${item.ukAbbr})</span>
       </td>
       <td class="p-3.5 text-center font-bold text-lg text-sage-700">${item.symbol}</td>
-      <td class="p-3.5 text-xs text-sand-800/80 leading-relaxed">${item.description}</td>
+      <td class="p-3.5 text-xs text-sand-800 leading-relaxed">${item.description}</td>
     </tr>
   `).join('');
 }
@@ -431,7 +428,7 @@ export function renderProjectsList(projects, activeProjectId, onSelectProject, o
 
   if (projects.length === 0) {
     container.innerHTML = `
-      <div class="text-center py-8 text-sand-800/60 text-xs">
+      <div class="text-center py-8 text-sand-800 text-xs">
         <i class="fa-regular fa-folder-open text-3xl mb-2 block text-sand-400"></i>
         No tienes proyectos guardados aún.<br>Usa el botón "Nuevo Proyecto" o guarda tus cálculos.
       </div>
@@ -452,7 +449,7 @@ export function renderProjectsList(projects, activeProjectId, onSelectProject, o
               ${p.status === 'completed' ? 'Terminado' : 'En progreso'}
             </span>
           </div>
-          <div class="text-[11px] text-sand-800/70 flex items-center gap-3">
+          <div class="text-[11px] text-sand-800 flex items-center gap-3">
             <span><i class="fa-solid fa-hashtag text-terracotta-500"></i> ${p.recalcChains || p.origChains || '-'} cad</span>
             <span><i class="fa-solid fa-stopwatch text-sage-600"></i> Vta ${p.currentRow || 1} / ${p.targetRows || 20} (${progressPercent}%)</span>
           </div>
@@ -462,11 +459,62 @@ export function renderProjectsList(projects, activeProjectId, onSelectProject, o
           <button type="button" class="p-1.5 text-sand-800 hover:text-terracotta-600 transition text-xs" title="Cargar en contador" onclick="window.selectProject('${p.id}')">
             <i class="fa-solid fa-play"></i>
           </button>
-          <button type="button" class="p-1.5 text-sand-800/50 hover:text-rose-600 transition text-xs" title="Eliminar" onclick="window.confirmDeleteProject('${p.id}')">
+          <button type="button" class="p-1.5 text-sand-800 hover:text-rose-600 transition text-xs" title="Eliminar" onclick="window.confirmDeleteProject('${p.id}')">
             <i class="fa-regular fa-trash-can"></i>
           </button>
         </div>
       </div>
     `;
   }).join('');
+}
+
+// ==========================================
+// BARRA DE RESULTADO FIJA (MÓVIL)
+// ==========================================
+
+const mobileResultState = { onConverterTab: true, resultsOnScreen: false };
+
+function refreshMobileResultBar() {
+  const bar = document.getElementById('mobile-result-bar');
+  if (!bar) return;
+  bar.classList.toggle('visible', mobileResultState.onConverterTab && !mobileResultState.resultsOnScreen);
+}
+
+/**
+ * Muestra el resultado del Conversor en una barra fija cuando la tarjeta de resultado no está a la vista
+ */
+export function initMobileResultBar() {
+  const bar = document.getElementById('mobile-result-bar');
+  const resultsCard = document.getElementById('results-card');
+  const bottomNav = document.querySelector('.bottom-nav');
+  if (!bar || !resultsCard) return;
+
+  const placeAboveNav = () => {
+    if (bottomNav) bar.style.bottom = `${bottomNav.offsetHeight + 8}px`;
+  };
+  placeAboveNav();
+  window.addEventListener('resize', placeAboveNav);
+
+  new IntersectionObserver(([entry]) => {
+    mobileResultState.resultsOnScreen = entry.isIntersecting;
+    refreshMobileResultBar();
+  }).observe(resultsCard);
+
+  bar.addEventListener('click', () => {
+    resultsCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+
+export function renderMobileResultBar({ stitches, rows }) {
+  const stitchesEl = document.getElementById('mobile-result-stitches');
+  const rowsEl = document.getElementById('mobile-result-rows');
+  const rowsWrap = document.getElementById('mobile-result-rows-wrap');
+  if (stitchesEl) stitchesEl.textContent = stitches;
+  if (rowsEl) rowsEl.textContent = rows ?? '';
+  if (rowsWrap) rowsWrap.classList.toggle('hidden', !rows);
+}
+
+export function setMobileResultBarTab(tabId) {
+  mobileResultState.onConverterTab = tabId === 'converter';
+  refreshMobileResultBar();
 }

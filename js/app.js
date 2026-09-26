@@ -33,7 +33,10 @@ import {
   renderGlossaryTable, 
   renderProjectsList, 
   showToast, 
-  playHapticSound 
+  playHapticSound,
+  initMobileResultBar,
+  renderMobileResultBar,
+  setMobileResultBarTab
 } from './presentation/ui.js';
 import { processImageFile } from './presentation/files.js';
 import { GARMENT_CATEGORIES } from './domain/data/presetsData.js';
@@ -64,6 +67,7 @@ function initApp() {
 
   // 2. Poblar componentes UI y tablas
   populateSelectElements();
+  initMobileResultBar();
   renderYarnTable();
   renderHookTable();
   renderGlossaryTable();
@@ -879,9 +883,9 @@ export function switchTab(tabId) {
   // Actualizar botones desktop
   document.querySelectorAll('.desktop-nav-btn').forEach(btn => {
     if (btn.getAttribute('data-tab') === tabId) {
-      btn.className = 'desktop-nav-btn px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2 text-terracotta-600 bg-white shadow-sm';
+      btn.className = 'desktop-nav-btn px-3 xl:px-4 py-2 whitespace-nowrap rounded-full text-sm font-semibold transition flex items-center gap-2 text-terracotta-600 bg-white shadow-sm';
     } else {
-      btn.className = 'desktop-nav-btn px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600';
+      btn.className = 'desktop-nav-btn px-3 xl:px-4 py-2 whitespace-nowrap rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600';
     }
   });
 
@@ -894,6 +898,7 @@ export function switchTab(tabId) {
     }
   });
 
+  setMobileResultBarTab(tabId);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -970,6 +975,8 @@ function triggerConverterCalculation() {
   if (resFinalRows && result.finalRows) {
     resFinalRows.textContent = result.finalRows;
   }
+
+  renderMobileResultBar({ stitches: result.finalStitches, rows: result.finalRows });
 
   if (adviceText) {
     adviceText.textContent = result.advice;

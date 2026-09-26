@@ -110,7 +110,7 @@
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-artisan-pattern flex flex-col min-h-screen text-espresso selection:bg-berry/20 selection:text-berry pb-20 md:pb-8">
+<body class="bg-artisan-pattern flex flex-col min-h-screen text-espresso selection:bg-berry/20 selection:text-berry pb-20 lg:pb-8">
 
   <!-- Toast Notificaciones -->
   <div id="toast-container"></div>
@@ -128,37 +128,37 @@
           <div>
             <div class="flex items-center gap-2">
               <span class="font-headline font-bold text-xl sm:text-2xl text-berry tracking-tight">CrochetCalc</span>
-              <span class="bg-blush-100 text-espresso text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-blush/40 hidden sm:inline-block">PuntoPerfecto</span>
+              <span class="bg-blush-100 text-espresso text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider border border-blush/40 hidden xl:inline-block">PuntoPerfecto</span>
             </div>
-            <p class="text-xs text-espresso-muted font-medium hidden sm:block">Calculadora y adaptador inteligente de patrones</p>
+            <p class="text-xs text-espresso-muted font-medium hidden xl:block">Calculadora y adaptador inteligente de patrones</p>
           </div>
         </div>
 
         <!-- Desktop Navigation Tabs -->
-        <nav class="hidden md:flex items-center space-x-1 bg-almond-100 p-1.5 rounded-full border border-almond-borderSoft">
-          <button data-tab="converter" class="desktop-nav-btn px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2 text-berry bg-white shadow-sm">
+        <nav class="hidden lg:flex items-center space-x-1 bg-almond-100 p-1.5 rounded-full border border-almond-borderSoft">
+          <button data-tab="converter" class="desktop-nav-btn px-3 xl:px-4 py-2 whitespace-nowrap rounded-full text-sm font-semibold transition flex items-center gap-2 text-berry bg-white shadow-sm">
             <i class="fa-solid fa-calculator"></i>
             <span>Conversor</span>
           </button>
-          <button data-tab="yarn-calc" class="desktop-nav-btn px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2 text-espresso-muted hover:text-berry">
+          <button data-tab="yarn-calc" class="desktop-nav-btn px-3 xl:px-4 py-2 whitespace-nowrap rounded-full text-sm font-semibold transition flex items-center gap-2 text-espresso-muted hover:text-berry">
             <span class="material-symbols-outlined text-[18px]">straighten</span>
-            <span>¿Cuánta Lana?</span>
+            <span>Lana</span>
           </button>
-          <button data-tab="gauge" class="desktop-nav-btn px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600">
+          <button data-tab="gauge" class="desktop-nav-btn px-3 xl:px-4 py-2 whitespace-nowrap rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600">
             <i class="fa-solid fa-ruler-combined"></i>
             <span>Muestra</span>
           </button>
-          <button data-tab="sizes" class="desktop-nav-btn px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600">
+          <button data-tab="sizes" class="desktop-nav-btn px-3 xl:px-4 py-2 whitespace-nowrap rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600">
             <i class="fa-solid fa-shirt"></i>
-            <span>¿Me quedará bien?</span>
+            <span>Tallas</span>
           </button>
-          <button data-tab="projects" class="desktop-nav-btn px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600">
+          <button data-tab="projects" class="desktop-nav-btn px-3 xl:px-4 py-2 whitespace-nowrap rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600">
             <i class="fa-solid fa-book-bookmark"></i>
-            <span>Mi Libreta</span>
+            <span>Libreta</span>
           </button>
-          <button data-tab="tables" class="desktop-nav-btn px-4 py-2 rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600">
+          <button data-tab="tables" class="desktop-nav-btn px-3 xl:px-4 py-2 whitespace-nowrap rounded-full text-sm font-semibold transition flex items-center gap-2 text-sand-800 hover:text-terracotta-600">
             <i class="fa-solid fa-table-list"></i>
-            <span>Tablas & Glosario</span>
+            <span>Tablas</span>
           </button>
         </nav>
 
@@ -166,7 +166,7 @@
         <div class="flex items-center space-x-2">
           <button id="btn-wake-lock" title="Mantener pantalla encendida mientras tejes" class="p-2.5 rounded-full bg-sand-100 hover:bg-terracotta-50 text-sand-800 hover:text-terracotta-600 border border-sand-200 transition text-sm flex items-center gap-1.5 font-medium">
             <i class="fa-regular fa-sun"></i>
-            <span class="hidden lg:inline text-xs">Mantener activa</span>
+            <span class="hidden xl:inline text-xs">Mantener activa</span>
           </button>
 
           <!-- Botón de Cuenta de Usuario / Sincronización en la Nube -->
@@ -175,7 +175,7 @@
               <div id="auth-avatar-circle" class="w-6 h-6 rounded-full bg-terracotta-500 text-white flex items-center justify-center text-[10px] font-bold">
                 <i class="fa-solid fa-user"></i>
               </div>
-              <span id="auth-user-label" class="inline text-xs font-semibold max-w-[110px] truncate">Iniciar sesión</span>
+              <span id="auth-user-label" class="inline lg:hidden xl:inline text-xs font-semibold max-w-[110px] truncate">Iniciar sesión</span>
               <span id="auth-cloud-badge" class="hidden w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-white" title="Sincronizado en la nube"></span>
             </button>
 
@@ -183,7 +183,7 @@
             <div id="user-dropdown-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-sand-200 py-2 z-50 text-sand-900 ring-1 ring-black/5">
               <div class="px-4 py-3 border-b border-sand-100 bg-sand-50/50">
                 <p id="dropdown-user-name" class="font-bold text-sm text-sand-900 truncate">Mi Cuenta</p>
-                <p id="dropdown-user-email" class="text-xs text-sand-800/80 truncate mt-0.5"></p>
+                <p id="dropdown-user-email" class="text-xs text-sand-800 truncate mt-0.5"></p>
                 <div class="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-600 font-semibold">
                   <span class="material-symbols-outlined text-[14px]">cloud_done</span> Nube Activa y Sincronizada
                 </div>
@@ -223,10 +223,10 @@
           </div>
           <div>
             <h1 class="font-serif-heading text-xl sm:text-2xl font-bold text-sand-900">Adaptador y Conversor Inteligente</h1>
-            <p class="text-sm text-sand-800/80 mt-1">¿Sigues un tutorial pero tienes otra lana o ganchillo? Introduce los datos originales y tus materiales para calcular las cadenetas exactas.</p>
+            <p class="text-sm text-sand-800 mt-1">¿Sigues un tutorial pero tienes otra lana o ganchillo? Introduce los datos originales y tus materiales para calcular las cadenetas exactas.</p>
           </div>
         </div>
-        <button id="btn-reset-converter" class="text-xs font-semibold text-sand-800/70 hover:text-terracotta-600 flex items-center gap-1.5 self-end md:self-center border border-sand-300 px-3 py-1.5 rounded-full bg-white hover:bg-sand-50 transition">
+        <button id="btn-reset-converter" class="text-xs font-semibold text-sand-800 hover:text-terracotta-600 flex items-center gap-1.5 self-end md:self-center border border-sand-300 px-3 py-1.5 rounded-full bg-white hover:bg-sand-50 transition">
           <i class="fa-solid fa-rotate-left"></i> Restablecer
         </button>
       </div>
@@ -254,7 +254,7 @@
                 </label>
                 <div class="relative">
                   <input type="number" id="orig-chains" value="40" min="1" max="999" class="input-artisan text-lg font-bold text-terracotta-700 pl-4 pr-16" placeholder="ej: 40">
-                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-sand-800/60 bg-sand-100 px-2 py-1 rounded-md">cadenetas</span>
+                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-sand-800 bg-sand-100 px-2 py-1 rounded-md">cadenetas</span>
                 </div>
               </div>
 
@@ -281,7 +281,7 @@
               <!-- Vueltas originales (Opcional) -->
               <div>
                 <label class="block text-xs font-bold text-sand-800 uppercase tracking-wide mb-1.5">
-                  <i class="fa-solid fa-layer-group text-terracotta-500 mr-1"></i> Vueltas originales <span class="text-xs font-normal text-sand-800/60">(opcional)</span>:
+                  <i class="fa-solid fa-layer-group text-terracotta-500 mr-1"></i> Vueltas originales <span class="text-xs font-normal text-sand-800">(opcional)</span>:
                 </label>
                 <input type="number" id="orig-rows" value="20" min="0" max="999" class="input-artisan" placeholder="ej: 20">
               </div>
@@ -289,7 +289,7 @@
               <!-- Ancho esperado original en cm (Opcional) -->
               <div>
                 <label class="block text-xs font-bold text-sand-800 uppercase tracking-wide mb-1.5">
-                  <i class="fa-solid fa-ruler-horizontal text-terracotta-500 mr-1"></i> Ancho deseado en cm <span class="text-xs font-normal text-sand-800/60">(opcional)</span>:
+                  <i class="fa-solid fa-ruler-horizontal text-terracotta-500 mr-1"></i> Ancho deseado en cm <span class="text-xs font-normal text-sand-800">(opcional)</span>:
                 </label>
                 <input type="number" id="orig-width-cm" min="0" max="500" step="0.5" class="input-artisan" placeholder="ej: 30 cm">
               </div>
@@ -351,7 +351,7 @@
                   <label class="text-xs font-bold text-sand-800 uppercase tracking-wide flex items-center gap-1.5">
                     <i class="fa-solid fa-repeat text-sage-600"></i> ¿El punto requiere múltiplos? (Opcional)
                   </label>
-                  <span class="text-xs text-sand-800/70" id="multiple-badge">Sin múltiplos fijos</span>
+                  <span class="text-xs text-sand-800" id="multiple-badge">Sin múltiplos fijos</span>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                   <div>
@@ -363,7 +363,7 @@
                     <input type="number" id="pattern-plus" min="0" max="50" class="input-artisan text-sm" placeholder="ej: + 2">
                   </div>
                 </div>
-                <p class="text-[11px] text-sand-800/70 mt-1.5">Útil si tejes puntos calados, abanicos, granny stripes o zig-zag para no romper el patrón.</p>
+                <p class="text-[11px] text-sand-800 mt-1.5">Útil si tejes puntos calados, abanicos, granny stripes o zig-zag para no romper el patrón.</p>
               </div>
 
             </div>
@@ -393,7 +393,7 @@
                 </span>
                 <span class="text-lg font-bold text-sand-800">cadenetas</span>
               </div>
-              <p class="text-xs text-sand-800/70 mt-1" id="res-theoretical-note">(Cálculo exacto: 32.3 pts)</p>
+              <p class="text-xs text-sand-800 mt-1" id="res-theoretical-note">(Cálculo exacto: 32.3 pts)</p>
             </div>
 
             <!-- Estimación de Vueltas -->
@@ -404,7 +404,7 @@
                 </div>
                 <div>
                   <span class="text-xs font-bold text-sand-800 uppercase block">Vueltas recomendadas</span>
-                  <span class="text-xs text-sand-800/70">Para mantener la misma altura</span>
+                  <span class="text-xs text-sand-800">Para mantener la misma altura</span>
                 </div>
               </div>
               <div class="text-right">
@@ -421,7 +421,7 @@
                 </div>
                 <div>
                   <span class="text-xs font-bold text-sand-800 uppercase block">Lana Requerida Estimada</span>
-                  <span class="text-xs text-sand-800/70" id="res-yarn-grams-approx">~250 g • 450 metros</span>
+                  <span class="text-xs text-sand-800" id="res-yarn-grams-approx">~250 g • 450 metros</span>
                 </div>
               </div>
               <div class="text-right flex flex-col items-end">
@@ -444,7 +444,7 @@
               <div class="gauge-visual-bar">
                 <div id="scale-progress-bar" class="gauge-visual-progress" style="width: 65%;"></div>
               </div>
-              <div class="flex justify-between text-[11px] text-sand-800/70">
+              <div class="flex justify-between text-[11px] text-sand-800">
                 <span>Original: <strong id="summary-orig-mat">Worsted 4.0mm</strong></span>
                 <span>Tus materiales: <strong id="summary-user-mat">Bulky 6.0mm</strong></span>
               </div>
@@ -497,7 +497,7 @@
           </div>
           <div>
             <h1 class="font-serif-heading text-xl sm:text-2xl font-bold text-sand-900">¿Cuánta Lana Voy a Necesitar? (Calculadora de Ovillos)</h1>
-            <p class="text-sm text-sand-800/80 mt-1">Calcula exactamente cuántos ovillos, metros y gramos comprar para tu proyecto sin quedarte corta a mitad de camino.</p>
+            <p class="text-sm text-sand-800 mt-1">Calcula exactamente cuántos ovillos, metros y gramos comprar para tu proyecto sin quedarte corta a mitad de camino.</p>
           </div>
         </div>
       </div>
@@ -505,13 +505,13 @@
       <!-- Selector de Método de Cálculo de Lana -->
       <div class="pill-group max-w-2xl mx-auto" id="yarn-method-pills">
         <div class="pill-option active" data-method="garment_type">
-          <i class="fa-solid fa-shirt mr-1"></i> 1. Por Tipo de Prenda
+          <i class="fa-solid fa-shirt mr-1"></i> Por prenda
         </div>
         <div class="pill-option" data-method="swatch_weight">
-          <i class="fa-solid fa-scale-balanced mr-1"></i> 2. Por Peso de Muestra (Báscula)
+          <i class="fa-solid fa-scale-balanced mr-1"></i> Por peso
         </div>
         <div class="pill-option" data-method="unravel_length">
-          <i class="fa-solid fa-tape mr-1"></i> 3. Por Hilo Deshecho (10 pts)
+          <i class="fa-solid fa-tape mr-1"></i> Hilo deshecho
         </div>
       </div>
 
@@ -586,7 +586,7 @@
               <div class="sm:col-span-2">
                 <label class="block text-xs font-bold text-sand-800 uppercase tracking-wide mb-1.5 flex justify-between">
                   <span><i class="fa-solid fa-shapes text-sage-600 mr-1"></i> Textura / Tipo de Punto:</span>
-                  <span id="stitch-consumption-note" class="text-xs font-normal text-sand-800/70">Consumo estándar</span>
+                  <span id="stitch-consumption-note" class="text-xs font-normal text-sand-800">Consumo estándar</span>
                 </label>
                 <select id="calc-yarn-stitch-type" class="select-artisan">
                   <option value="lace_mesh">Red Calada / Malla de Cadenetas (Ahorro ~25%)</option>
@@ -606,7 +606,7 @@
             <h2 class="font-serif-heading font-bold text-lg text-sand-900 flex items-center gap-2">
               <i class="fa-solid fa-scale-balanced text-accent-gold"></i> Método por Peso de Muestra (El Más Exacto)
             </h2>
-            <p class="text-xs text-sand-800/80">Teje una muestra pequeña (ej: 10x10 cm), pésala en tu báscula de cocina e introduce las medidas finales de la labor.</p>
+            <p class="text-xs text-sand-800">Teje una muestra pequeña (ej: 10x10 cm), pésala en tu báscula de cocina e introduce las medidas finales de la labor.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="bg-sand-50 p-3.5 rounded-xl border border-sand-200 sm:col-span-2">
@@ -648,7 +648,7 @@
             <h2 class="font-serif-heading font-bold text-lg text-sand-900 flex items-center gap-2">
               <i class="fa-solid fa-tape text-sage-600"></i> Método por Hilo Deshecho
             </h2>
-            <p class="text-xs text-sand-800/80">Teje 10 puntos, deshazlos y mide con tu cinta métrica cuántos centímetros de hilo consumieron esos 10 puntos.</p>
+            <p class="text-xs text-sand-800">Teje 10 puntos, deshazlos y mide con tu cinta métrica cuántos centímetros de hilo consumieron esos 10 puntos.</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -662,7 +662,7 @@
               <div class="sm:col-span-2">
                 <label class="block text-xs font-semibold text-sand-800 mb-1">Puntos totales estimados en el proyecto:</label>
                 <input type="number" id="unravel-total-proj-sts" value="2800" class="input-artisan">
-                <span class="text-[11px] text-sand-800/60 block mt-1">Total de puntos = Cadenetas iniciales × Vueltas totales</span>
+                <span class="text-[11px] text-sand-800 block mt-1">Total de puntos = Cadenetas iniciales × Vueltas totales</span>
               </div>
             </div>
           </div>
@@ -693,7 +693,7 @@
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-sand-800 mb-1">Metros en etiqueta <span class="text-[10px] text-sand-800/60">(opc)</span>:</label>
+                <label class="block text-xs font-bold text-sand-800 mb-1">Metros en etiqueta <span class="text-[10px] text-sand-800">(opc)</span>:</label>
                 <input type="number" id="calc-ball-meters-input" placeholder="ej: 200m" class="input-artisan text-sm">
               </div>
 
@@ -701,7 +701,7 @@
               <div class="sm:col-span-3 bg-sand-50 p-3 rounded-xl border border-sand-200 flex items-center justify-between">
                 <div>
                   <span class="text-xs font-bold text-sand-800 block">Margen de Seguridad Extra:</span>
-                  <span class="text-[11px] text-sand-800/70">Para remates, flecos o si tejes más suelto.</span>
+                  <span class="text-[11px] text-sand-800">Para remates, flecos o si tejes más suelto.</span>
                 </div>
                 <select id="calc-safety-margin" class="select-artisan w-auto text-xs font-bold">
                   <option value="5">+5% (Ajustado)</option>
@@ -736,17 +736,17 @@
                 </span>
                 <span class="text-xl font-bold text-sand-800">ovillos</span>
               </div>
-              <p class="text-xs text-sand-800/70 mt-1" id="yarn-res-ball-format-note">de 100g cada uno</p>
+              <p class="text-xs text-sand-800 mt-1" id="yarn-res-ball-format-note">de 100g cada uno</p>
             </div>
 
             <!-- Metros y Gramos Totales -->
             <div class="grid grid-cols-2 gap-3 text-center">
               <div class="bg-white p-3.5 rounded-xl border border-sand-200 shadow-sm">
-                <span class="text-[11px] text-sand-800/70 font-semibold block uppercase">Longitud Total</span>
+                <span class="text-[11px] text-sand-800 font-semibold block uppercase">Longitud Total</span>
                 <span id="yarn-res-meters-total" class="text-2xl font-bold text-terracotta-700 font-serif-heading">450 m</span>
               </div>
               <div class="bg-white p-3.5 rounded-xl border border-sand-200 shadow-sm">
-                <span class="text-[11px] text-sand-800/70 font-semibold block uppercase">Peso Total</span>
+                <span class="text-[11px] text-sand-800 font-semibold block uppercase">Peso Total</span>
                 <span id="yarn-res-grams-total" class="text-2xl font-bold text-sage-700 font-serif-heading">250 g</span>
               </div>
             </div>
@@ -762,7 +762,7 @@
             </div>
 
             <!-- Detalle técnico -->
-            <p class="text-[11px] text-sand-800/60 text-center leading-normal" id="yarn-res-details-text">
+            <p class="text-[11px] text-sand-800 text-center leading-normal" id="yarn-res-details-text">
               Estimación basada en arquetipo de patrón y factor de puntada.
             </p>
 
@@ -792,7 +792,7 @@
           </div>
           <div>
             <h1 class="font-serif-heading text-xl sm:text-2xl font-bold text-sand-900">Muestra Rápida de Tensión (Gauge Express)</h1>
-            <p class="text-sm text-sand-800/80 mt-1">Teje unos pocos puntos de prueba, mide con tu regla y descubre tu densidad real para tejer cualquier tamaño sin errores.</p>
+            <p class="text-sm text-sand-800 mt-1">Teje unos pocos puntos de prueba, mide con tu regla y descubre tu densidad real para tejer cualquier tamaño sin errores.</p>
           </div>
         </div>
       </div>
@@ -822,7 +822,7 @@
                     <label class="block text-xs font-semibold text-sand-800 mb-1">Miden con la regla:</label>
                     <div class="relative">
                       <input type="number" id="gauge-input-width-cm" value="6.5" min="0.5" max="100" step="0.1" class="input-artisan font-bold text-terracotta-600 pr-10" placeholder="6.5">
-                      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-sand-800/60">cm</span>
+                      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-sand-800">cm</span>
                     </div>
                   </div>
                 </div>
@@ -842,7 +842,7 @@
                     <label class="block text-xs font-semibold text-sand-800 mb-1">Miden de alto:</label>
                     <div class="relative">
                       <input type="number" id="gauge-input-height-cm" value="5.0" min="0.5" max="100" step="0.1" class="input-artisan font-bold text-sage-600 pr-10" placeholder="5.0">
-                      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-sand-800/60">cm</span>
+                      <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-sand-800">cm</span>
                     </div>
                   </div>
                 </div>
@@ -880,14 +880,14 @@
 
             <div class="grid grid-cols-2 gap-4 my-4">
               <div class="bg-white p-4 rounded-xl border border-sand-200 text-center shadow-sm">
-                <span class="text-xs font-bold text-sand-800/70 uppercase block mb-1">Puntos por cm</span>
+                <span class="text-xs font-bold text-sand-800 uppercase block mb-1">Puntos por cm</span>
                 <span id="res-sts-per-cm" class="text-3xl font-extrabold text-terracotta-600 font-serif-heading">1.54</span>
-                <span class="text-[11px] text-sand-800/60 block mt-1">~<span id="res-sts-10cm" class="font-bold">15.4</span> pts en 10 cm</span>
+                <span class="text-[11px] text-sand-800 block mt-1">~<span id="res-sts-10cm" class="font-bold">15.4</span> pts en 10 cm</span>
               </div>
               <div class="bg-white p-4 rounded-xl border border-sand-200 text-center shadow-sm">
-                <span class="text-xs font-bold text-sand-800/70 uppercase block mb-1">Vueltas por cm</span>
+                <span class="text-xs font-bold text-sand-800 uppercase block mb-1">Vueltas por cm</span>
                 <span id="res-rows-per-cm" class="text-3xl font-extrabold text-sage-600 font-serif-heading">1.60</span>
-                <span class="text-[11px] text-sand-800/60 block mt-1">~<span id="res-rows-10cm" class="font-bold">16.0</span> vtas en 10 cm</span>
+                <span class="text-[11px] text-sand-800 block mt-1">~<span id="res-rows-10cm" class="font-bold">16.0</span> vtas en 10 cm</span>
               </div>
             </div>
 
@@ -898,13 +898,13 @@
                 <div>
                   <span class="text-xs text-sand-800 block">Debes montar</span>
                   <span id="target-res-stitches" class="text-3xl font-black text-terracotta-600 font-serif-heading">69</span>
-                  <span class="text-xs font-bold text-sand-800/70 block">cadenetas</span>
+                  <span class="text-xs font-bold text-sand-800 block">cadenetas</span>
                 </div>
                 <div class="h-10 w-px bg-sand-200"></div>
                 <div>
                   <span class="text-xs text-sand-800 block">Debes tejer</span>
                   <span id="target-res-rows" class="text-3xl font-black text-sage-600 font-serif-heading">96</span>
-                  <span class="text-xs font-bold text-sand-800/70 block">vueltas</span>
+                  <span class="text-xs font-bold text-sand-800 block">vueltas</span>
                 </div>
               </div>
             </div>
@@ -934,7 +934,7 @@
           </div>
           <div>
             <h1 class="font-serif-heading text-xl sm:text-2xl font-bold text-sand-900">¿Me quedará bien? (Comprobador de Tallas y Holgura)</h1>
-            <p class="text-sm text-sand-800/80 mt-1">Elige tu tipo de prenda o medidas deseadas y comprueba el ajuste exacto, holgura visual y cálculo de corona para gorros.</p>
+            <p class="text-sm text-sand-800 mt-1">Elige tu tipo de prenda o medidas deseadas y comprueba el ajuste exacto, holgura visual y cálculo de corona para gorros.</p>
           </div>
         </div>
       </div>
@@ -986,7 +986,7 @@
               <select id="ease-select" class="select-artisan">
                 <!-- Se llena con JS -->
               </select>
-              <p class="text-xs text-sand-800/70 mt-1" id="ease-description-text">La holgura determina si la prenda queda pegada al cuerpo, cómoda o estilo oversized.</p>
+              <p class="text-xs text-sand-800 mt-1" id="ease-description-text">La holgura determina si la prenda queda pegada al cuerpo, cómoda o estilo oversized.</p>
             </div>
 
           </div>
@@ -1010,11 +1010,11 @@
             <!-- Resumen de Medidas Finales -->
             <div class="grid grid-cols-2 gap-3 text-center">
               <div class="bg-white p-3 rounded-xl border border-sand-200">
-                <span class="text-[11px] text-sand-800/70 font-semibold block">Ancho/Contorno Final</span>
+                <span class="text-[11px] text-sand-800 font-semibold block">Ancho/Contorno Final</span>
                 <span id="fit-res-width" class="text-2xl font-bold text-terracotta-600 font-serif-heading">104 cm</span>
               </div>
               <div class="bg-white p-3 rounded-xl border border-sand-200">
-                <span class="text-[11px] text-sand-800/70 font-semibold block">Largo Final</span>
+                <span class="text-[11px] text-sand-800 font-semibold block">Largo Final</span>
                 <span id="fit-res-height" class="text-2xl font-bold text-sage-600 font-serif-heading">58 cm</span>
               </div>
             </div>
@@ -1060,7 +1060,7 @@
           </div>
           <div>
             <h1 class="font-serif-heading text-xl sm:text-2xl font-bold text-sand-900">Libreta de Proyectos y Contador Táctil</h1>
-            <p class="text-sm text-sand-800/80 mt-1">Guarda notas de tutoriales, fotos de referencia y cuenta vueltas con botones grandes táctiles mientras tejes.</p>
+            <p class="text-sm text-sand-800 mt-1">Guarda notas de tutoriales, fotos de referencia y cuenta vueltas con botones grandes táctiles mientras tejes.</p>
           </div>
         </div>
         <button id="btn-new-project-modal" class="btn-primary-artisan text-xs">
@@ -1083,9 +1083,9 @@
 
             <!-- Gran Número de Vuelta -->
             <div class="py-2">
-              <span class="text-xs font-bold text-sand-800/70 uppercase tracking-widest block mb-1">Vuelta Actual</span>
+              <span class="text-xs font-bold text-sand-800 uppercase tracking-widest block mb-1">Vuelta Actual</span>
               <div class="counter-number-display" id="counter-value">1</div>
-              <div class="text-xs font-semibold text-sand-800/70 mt-1">
+              <div class="text-xs font-semibold text-sand-800 mt-1">
                 de <span id="counter-target-display" class="font-bold text-sand-900">20</span> vueltas objetivo
               </div>
             </div>
@@ -1193,7 +1193,7 @@
           </div>
           <div>
             <h1 class="font-serif-heading text-xl sm:text-2xl font-bold text-sand-900">Tablas de Equivalencias y Herramientas</h1>
-            <p class="text-sm text-sand-800/80 mt-1">Consulta los estándares internacionales de lanas (CYC 0-7), ganchillos métrico/US/UK, glosario multilingüe y calculadoras de aumentos.</p>
+            <p class="text-sm text-sand-800 mt-1">Consulta los estándares internacionales de lanas (CYC 0-7), ganchillos métrico/US/UK, glosario multilingüe y calculadoras de aumentos.</p>
           </div>
         </div>
       </div>
@@ -1266,7 +1266,7 @@
         
         <!-- Buscador -->
         <div class="relative">
-          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-sand-800/50"></i>
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-sand-800"></i>
           <input type="text" id="glossary-search-input" placeholder="Buscar punto o abreviatura (ej: vareta, sc, treble, popcorn...)" class="input-artisan pl-11">
         </div>
 
@@ -1296,7 +1296,7 @@
           
           <div class="card-artisan p-6 space-y-4">
             <h3 class="font-serif-heading font-bold text-lg text-sand-900">Distribuidor Equidistante de Puntos</h3>
-            <p class="text-xs text-sand-800/80">Calcula cómo repartir aumentos o disminuciones a lo largo de una vuelta de forma regular y simétrica.</p>
+            <p class="text-xs text-sand-800">Calcula cómo repartir aumentos o disminuciones a lo largo de una vuelta de forma regular y simétrica.</p>
 
             <div class="space-y-3">
               <div>
@@ -1331,7 +1331,7 @@
                 *5 pb, aum* repetir 6 veces (Puntos finales: 46)
               </div>
             </div>
-            <div class="text-xs text-sand-800/70 mt-4">
+            <div class="text-xs text-sand-800 mt-4">
               <i class="fa-solid fa-circle-info text-terracotta-500 mr-1"></i> Resultado calculado para mantener la labor circular y sin picos.
             </div>
           </div>
@@ -1383,11 +1383,11 @@
               
               <div class="grid grid-cols-2 gap-3 my-4 text-center">
                 <div class="bg-white p-3.5 rounded-xl border border-sand-200">
-                  <span class="text-[11px] text-sand-800/70 font-semibold block">Metros estimados</span>
+                  <span class="text-[11px] text-sand-800 font-semibold block">Metros estimados</span>
                   <span id="res-yardage-meters" class="text-2xl font-bold text-terracotta-600 font-serif-heading">380 m</span>
                 </div>
                 <div class="bg-white p-3.5 rounded-xl border border-sand-200">
-                  <span class="text-[11px] text-sand-800/70 font-semibold block">Gramos totales</span>
+                  <span class="text-[11px] text-sand-800 font-semibold block">Gramos totales</span>
                   <span id="res-yardage-grams" class="text-2xl font-bold text-sage-600 font-serif-heading">210 g</span>
                 </div>
               </div>
@@ -1399,7 +1399,7 @@
               </div>
             </div>
 
-            <div class="text-[11px] text-sand-800/70 mt-4">
+            <div class="text-[11px] text-sand-800 mt-4">
               <i class="fa-solid fa-circle-check text-sage-600 mr-1"></i> Se aconseja comprar 1 ovillo extra de reserva por seguridad de tintada.
             </div>
           </div>
@@ -1470,7 +1470,7 @@
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-sand-200 relative animate-scale-in">
       
       <!-- Botón cerrar -->
-      <button id="btn-close-auth-modal" onclick="window.closeAuthModal ? window.closeAuthModal() : document.getElementById('auth-modal').classList.add('hidden')" class="absolute top-4 right-4 text-sand-800/60 hover:text-terracotta-600 p-2 rounded-full hover:bg-sand-100 transition cursor-pointer">
+      <button id="btn-close-auth-modal" onclick="window.closeAuthModal ? window.closeAuthModal() : document.getElementById('auth-modal').classList.add('hidden')" class="absolute top-4 right-4 text-sand-800 hover:text-terracotta-600 p-2 rounded-full hover:bg-sand-100 transition cursor-pointer">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
@@ -1480,7 +1480,7 @@
           <span class="material-symbols-outlined text-3xl">gesture</span>
         </div>
         <h3 class="font-serif-heading text-2xl font-bold text-sand-900">Tu Cuenta de Tejedora</h3>
-        <p class="text-xs text-sand-800/80 mt-1">Guarda tus proyectos y contador de vueltas en la nube para tenerlos en todos tus dispositivos.</p>
+        <p class="text-xs text-sand-800 mt-1">Guarda tus proyectos y contador de vueltas en la nube para tenerlos en todos tus dispositivos.</p>
       </div>
 
       <!-- Botón de acceso con Google -->
@@ -1497,7 +1497,7 @@
       <!-- Divisor -->
       <div class="flex items-center my-4">
         <div class="flex-1 border-t border-sand-200"></div>
-        <span class="px-3 text-xs text-sand-800/60 uppercase font-semibold">o con tu correo</span>
+        <span class="px-3 text-xs text-sand-800 uppercase font-semibold">o con tu correo</span>
         <div class="flex-1 border-t border-sand-200"></div>
       </div>
 
@@ -1533,7 +1533,7 @@
       </form>
 
       <!-- Beneficios cloud -->
-      <div class="mt-4 pt-3 border-t border-sand-100 flex items-center justify-center gap-4 text-[11px] text-sand-800/70">
+      <div class="mt-4 pt-3 border-t border-sand-100 flex items-center justify-center gap-4 text-[11px] text-sand-800">
         <span class="flex items-center gap-1"><i class="fa-solid fa-cloud text-terracotta-500"></i> Copia automática</span>
         <span class="flex items-center gap-1"><i class="fa-solid fa-lock text-sage-600"></i> Privado y seguro</span>
       </div>
@@ -1545,7 +1545,13 @@
   <!-- ========================================== -->
   <!-- BARRA DE NAVEGACIÓN INFERIOR PARA MÓVIL    -->
   <!-- ========================================== -->
-  <nav class="bottom-nav md:hidden">
+  <!-- Resultado fijo del Conversor (solo móvil) -->
+  <button id="mobile-result-bar" type="button" class="mobile-result-bar lg:hidden" aria-label="Ver resultado del conversor">
+    <span><strong id="mobile-result-stitches">–</strong> cadenetas<span id="mobile-result-rows-wrap"> · <strong id="mobile-result-rows">–</strong> vueltas</span></span>
+    <span class="mobile-result-bar-link">Ver resultado <i class="fa-solid fa-chevron-down"></i></span>
+  </button>
+
+  <nav class="bottom-nav lg:hidden">
     <button data-tab="converter" class="nav-item-btn active">
       <i class="fa-solid fa-calculator"></i>
       <span>Conversor</span>

@@ -209,6 +209,18 @@ body {
   border: 1px solid var(--card-border);
 }
 
+/* Selector de método en "Lana": etiquetas cortas en una sola línea */
+#yarn-method-pills .pill-option {
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  #yarn-method-pills .pill-option {
+    font-size: 0.8125rem;
+    padding: 0.5rem;
+  }
+}
+
 /* Barra inferior móvil (Bottom Navigation Bar) */
 .bottom-nav {
   position: fixed;
@@ -256,6 +268,49 @@ body {
 
 .nav-item-btn.active i {
   transform: translateY(-2px);
+}
+
+/* Resultado fijo del Conversor en móvil, justo encima de la barra inferior */
+.mobile-result-bar {
+  position: fixed;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 72px;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 9999px;
+  background: var(--primary);
+  color: #FFFFFF;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow-active);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.mobile-result-bar.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.mobile-result-bar strong {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.mobile-result-bar-link {
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0.9;
 }
 
 /* Contador de vueltas táctil XXL */
