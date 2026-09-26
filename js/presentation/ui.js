@@ -3,8 +3,8 @@
  * Manejo de vistas, selects dinámicos, renderizado de SVG interactivo, tablas, buscador y notificaciones.
  */
 
-import { YARN_STANDARDS, HOOK_SIZES, CROCHET_GLOSSARY } from './data/yarnData.js';
-import { GARMENT_CATEGORIES, EASE_OPTIONS } from './data/presetsData.js';
+import { YARN_STANDARDS, HOOK_SIZES, CROCHET_GLOSSARY } from '../domain/data/yarnData.js';
+import { GARMENT_CATEGORIES, EASE_OPTIONS } from '../domain/data/presetsData.js';
 
 /**
  * Muestra una notificación tipo Toast emergente

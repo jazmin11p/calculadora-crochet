@@ -1,0 +1,18 @@
+#!/bin/sh
+# ==============================================================================
+# Pre-commit hook: runs unit tests and Clean Architecture boundary checks
+# (tests/architecture.test.js) before every commit.
+# Enabled by `npm install` via the "prepare" script (core.hooksPath=.githooks).
+# ==============================================================================
+
+echo "🔍 [Pre-Commit] Corriendo pruebas unitarias y límites de arquitectura..."
+npm run test --silent
+
+if [ $? -ne 0 ]; then
+  echo ""
+  echo "❌ [Pre-Commit FAILED] Fallaron las pruebas o hay violaciones de arquitectura. Commit abortado."
+  exit 1
+fi
+
+echo "✅ [Pre-Commit PASSED] Pruebas exitosas."
+exit 0

@@ -3,18 +3,17 @@
  * Coordinador de eventos, cálculos reactivos, sincronización y almacenamiento.
  */
 
-import { recalculatePattern, calculateQuickSwatch, calculateGarmentFit, distributeShaping, estimateYarnConsumption } from './calculator.js';
+import { recalculatePattern, calculateQuickSwatch, calculateGarmentFit, distributeShaping, estimateYarnConsumption } from './domain/calculator.js';
 import { 
   getProjects, 
   saveProject, 
   deleteProject, 
   getActiveCounter, 
   saveActiveCounter, 
-  processImageFile, 
   initializeSampleProjects,
   syncUserDataOnLogin,
   listenToRealtimeCloudUpdates
-} from './storage.js';
+} from './infrastructure/storage.js';
 import { 
   initAuth, 
   getCurrentUser, 
@@ -24,7 +23,7 @@ import {
   registerWithEmail, 
   logoutUser, 
   onAuthChange 
-} from './auth.js';
+} from './infrastructure/auth.js';
 import { 
   populateSelectElements, 
   updatePresetSizesSelect, 
@@ -35,8 +34,9 @@ import {
   renderProjectsList, 
   showToast, 
   playHapticSound 
-} from './ui.js';
-import { GARMENT_CATEGORIES } from './data/presetsData.js';
+} from './presentation/ui.js';
+import { processImageFile } from './presentation/files.js';
+import { GARMENT_CATEGORIES } from './domain/data/presetsData.js';
 
 // Estado global de la aplicación
 const AppState = {

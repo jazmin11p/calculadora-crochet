@@ -1,0 +1,13 @@
+{
+  "name": "calculadora-crochet",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "prepare": "git config core.hooksPath .githooks"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.11"
+  }
+}
